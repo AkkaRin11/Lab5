@@ -1,7 +1,16 @@
 package org.example.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Date;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Person {
     private String name; //Полe нe может быть null, Cтрoкa нe может быть nycтой
     private Date birthday; //Поле может быть null

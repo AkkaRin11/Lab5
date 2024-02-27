@@ -9,6 +9,7 @@ import java.util.Map;
 public class CommandController {
     private final Map<String, Command> commands;
     private final CommandHistory commandHistory;
+    private final String fileName;
 
     public CommandController() {
         commands = new HashMap<>();
@@ -31,6 +32,7 @@ public class CommandController {
         commands.put("sum_of_average_point", new SumOfAveragePoint());
         commands.put("update", new Update());
 
+        fileName = null; // считываем с клавы
 
 
 //        Scanner sc = new Scanner(System.in);

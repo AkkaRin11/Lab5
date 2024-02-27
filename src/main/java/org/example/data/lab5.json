@@ -1,0 +1,21 @@
+{"id":1,
+  "name":"name",
+  "coordinates":
+  {
+    "x":1.0,
+    "y":12
+  },
+  "creationDate":[2024,2,27,16,7,51,404566200],
+  "minimalPoint":13,
+  "averagePoint":11,
+  "difficulty":"EASY",
+  "author":
+    {
+      "name":"art",
+      "birthday":121212,
+      "height":185,
+      "hairColor":"ORANGE",
+      "nationality":"JAPAN"
+    }
+}
+

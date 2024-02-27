@@ -1,7 +1,15 @@
 package org.example.model;
 
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class LabWork {
     private Integer id; //Поле не может быть null, Значение поля должно быть большe 0, Значение этого поля должно быть уникальным
     private String name; //Поле не может быть null, Cтрoка нe может быть nyстой
