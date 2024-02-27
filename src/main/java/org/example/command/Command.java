@@ -1,5 +1,8 @@
 package org.example.command;
 
-public interface Command {
-    void execute();
+import org.example.controller.CommandController;
+
+public abstract class Command implements Describable, Executable{
+//    privat argSize;
+
 }

@@ -13,12 +13,18 @@ import java.util.Scanner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-// взаимодействие с файлом
 public class LabWorkRepository {
     private static LabWorkRepository instance;
 
     private LabWork labWork;
 
+    public static LabWorkRepository getInstance(String fileName){
+        if (instance == null){
+            instance = new LabWorkRepository(fileName);
+        }
+
+        return instance;
+    }
 
     private LabWorkRepository(String fileName){
         try {
@@ -37,21 +43,9 @@ public class LabWorkRepository {
 
             labWork = mapper.readValue(stringJson, LabWork.class);
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (JsonMappingException e) {
-            throw new RuntimeException(e);
-        } catch (JsonProcessingException e) {
+        } catch (FileNotFoundException | JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static LabWorkRepository getInstance(String fileName){
-        if (instance == null){
-            instance = new LabWorkRepository(fileName);
-        }
-
-        return instance;
     }
 
 //    public void wright(){

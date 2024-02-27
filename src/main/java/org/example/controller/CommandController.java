@@ -9,7 +9,6 @@ import java.util.Map;
 public class CommandController {
     private final Map<String, Command> commands;
     private final CommandHistory commandHistory;
-    private final String fileName;
 
     public CommandController() {
         commands = new HashMap<>();
@@ -32,17 +31,19 @@ public class CommandController {
         commands.put("sum_of_average_point", new SumOfAveragePoint());
         commands.put("update", new Update());
 
-        fileName = null; // считываем с клавы
 
+    }
 
-//        Scanner sc = new Scanner(System.in);
-//        while (sc.hasNext()) {
-//            String line = sc.next();
-//            String[] tokens = line.split(" ");
-//            Command command = commands.get(tokens[0]);
-//            command.execute();
-//        }
+    public void executeCommand(String commandName, String... args) {
+        Command command = commands.get(commandName);
+        command.execute(args);
+    }
 
+    public boolean isValidCommand(String input){
+        if (commands.get(input) != null){
+            return true;
+        }
 
+        return false;
     }
 }

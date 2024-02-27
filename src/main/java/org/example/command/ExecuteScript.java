@@ -1,8 +1,19 @@
 package org.example.command;
 
-public class ExecuteScript implements Command{
-    @Override
-    public void execute() {
+public class ExecuteScript extends Command{
 
+    @Override
+    public void execute(String... args) {
+
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
     }
 }
