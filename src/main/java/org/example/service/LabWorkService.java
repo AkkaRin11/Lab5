@@ -1,21 +1,18 @@
 package org.example.service;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.example.repository.LabWorkRepository;
+import org.example.model.LabWork;
 
-// взаимодействие с взадимродействием с файлом
-public class LabWorkService {
-    private final LabWorkRepository labWorkRepository;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
-    public LabWorkService(String fileName){
-         labWorkRepository = LabWorkRepository.getInstance(fileName);
-    }
+public interface LabWorkService {
 
-    /*
-
-    методы для взаимодействия с данными
-
-     */
-
+    void add(LabWork lb);
+    void clear();
+    void removeById(int id);
+    void removeGreater(LabWork lb);
+    void save();
+    LinkedHashSet<LabWork> show();
+    void updateById(LabWork labW, int id);
 }

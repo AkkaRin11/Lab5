@@ -8,11 +8,7 @@ public class Add extends Command{
 
         // проверка валидности количетсва переменных для команды
 
-        System.out.println("add");
-
-        for (String to: args){
-            System.out.println(to);
-        }
+        isSizeCorr(12);
     }
 
     @Override

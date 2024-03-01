@@ -1,15 +1,12 @@
-{"id":1,
-  "name":"name",
-  "coordinates":
-  {
-    "x":1.0,
-    "y":12
-  },
-  "creationDate":[2024,2,27,16,7,51,404566200],
-  "minimalPoint":13,
-  "averagePoint":11,
-  "difficulty":"EASY",
-  "author":
+[
+  {"id":1,
+    "name":"name",
+    "coordinates":{"x":1.0,"y":12},
+    "creationDate":[2024,3,1,17,58,25,240019400],
+    "minimalPoint":13,
+    "averagePoint":11,
+    "difficulty":"EASY",
+    "author":
     {
       "name":"art",
       "birthday":121212,
@@ -17,5 +14,22 @@
       "hairColor":"ORANGE",
       "nationality":"JAPAN"
     }
-}
-
+  },
+  {
+  "id":2,
+  "name":"nafme",
+    "coordinates":{"x":1.6,"y":12},
+    "creationDate":[2024,3,1,17,58,25,241525500],
+    "minimalPoint":13,
+    "averagePoint":11,
+    "difficulty":"EASY",
+    "author":
+    {
+      "name":"art",
+      "birthday":1216212,
+      "height":1865,
+      "hairColor":"ORANGE",
+      "nationality":"JAPAN"
+    }
+  }
+]
