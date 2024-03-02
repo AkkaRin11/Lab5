@@ -34,8 +34,8 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
 
             String stringJson = "";
 
-            Scanner scanner = new Scanner(new File("src/main/java/org/example/data/lab5.json"
-                    + fileName)); // тут ещё путь нужно норм указывать
+            Scanner scanner = new Scanner(new File("src/main/java/org/example/data/"
+                    + fileName));
 
             while (scanner.hasNextLine()) {
                 stringJson += scanner.nextLine();
@@ -104,7 +104,7 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
 
 
         try {
-            FileWriter writer = new FileWriter("src/main/java/org/example/data/lab5.json"
+            FileWriter writer = new FileWriter("src/main/java/org/example/data/"
                     + fileName); // тут ещё путь нужно норм указывать
             writer.write(jsonStr);
             writer.close();

@@ -1,14 +1,21 @@
 package org.example.controller;
 
-import lombok.AllArgsConstructor;
-import org.example.command.Command;
 
-import java.util.ArrayList;
+import org.example.util.NameUtil;
+
+import java.io.File;
+import java.util.Objects;
 import java.util.Scanner;
 
-@AllArgsConstructor
 public class ConsoleController {
     private final CommandController cc;
+
+    public ConsoleController(CommandController cc){
+        this.cc = cc;
+
+
+        System.out.println("Программа запущена\nДля получения списка команд напишите: help");
+    }
 
     public void run(){
 
