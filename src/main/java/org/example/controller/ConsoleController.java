@@ -21,7 +21,13 @@ public class ConsoleController {
 
         Scanner sc = new Scanner(System.in);
         while (sc.hasNext()) {
+
             String line = sc.nextLine();
+
+            if (line.isEmpty()){
+                continue;
+            }
+
             String[] str = line.split("\\s+");
 
             if (!cc.isValidCommand(str[0])){
@@ -38,7 +44,6 @@ public class ConsoleController {
             }
 
             cc.executeCommand(str[0], args);
-
         }
 
     }

@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.controller.CommandController;
 import org.example.controller.ConsoleController;
+import org.example.model.Difficulty;
 import org.example.repository.LabWorkRepository;
 import org.example.repository.LabWorkRepositoryImpl;
 import org.example.util.NameUtil;
@@ -12,7 +13,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
         NameUtil nameUtil = NameUtil.getInstance();
 
         String fileName = "";

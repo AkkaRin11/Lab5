@@ -1,6 +1,8 @@
 package org.example.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
 import org.example.model.*;
 
@@ -13,9 +15,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class LabWorkRepositoryImpl implements LabWorkRepository {
     private static LabWorkRepositoryImpl instance;
 
-    private LinkedHashSet<LabWork> labWork;
+    private final LinkedHashSet<LabWork> labWork;
 
-    private String fileName;
+    private final String fileName;
 
     public static LabWorkRepositoryImpl getInstance(String fileName){
         if (instance == null){
@@ -43,7 +45,8 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
 
             scanner.close();
 
-            labWork = mapper.readValue(stringJson, LinkedHashSet.class);
+            labWork = mapper.readValue(stringJson, new TypeReference<LinkedHashSet<LabWork>>() {});
+
 
         } catch (FileNotFoundException | JsonProcessingException e) {
             throw new RuntimeException(e);

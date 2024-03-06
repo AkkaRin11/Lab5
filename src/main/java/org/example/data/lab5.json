@@ -1,35 +1,102 @@
 [
-  {"id":1,
-    "name":"name",
-    "coordinates":{"x":1.0,"y":12},
-    "creationDate":[2024,3,1,17,58,25,240019400],
-    "minimalPoint":13,
-    "averagePoint":11,
-    "difficulty":"EASY",
-    "author":
-    {
-      "name":"art",
-      "birthday":121212,
-      "height":185,
-      "hairColor":"ORANGE",
-      "nationality":"JAPAN"
+  {
+    "id": 1,
+    "name": "name",
+    "coordinates": {
+      "x": 1,
+      "y": 12
+    },
+    "creationDate": [
+      2024,
+      3,
+      1,
+      17,
+      58,
+      25,
+      240019400
+    ],
+    "minimalPoint": 13,
+    "averagePoint": 11,
+    "difficulty": "EASY",
+    "author": {
+      "name": "art",
+      "birthday": 121212,
+      "height": 185,
+      "hairColor": "ORANGE",
+      "nationality": "JAPAN"
     }
   },
   {
-  "id":2,
-  "name":"nafme",
-    "coordinates":{"x":1.6,"y":12},
-    "creationDate":[2024,3,1,17,58,25,241525500],
-    "minimalPoint":13,
-    "averagePoint":11,
-    "difficulty":"EASY",
-    "author":
-    {
-      "name":"art",
-      "birthday":1216212,
-      "height":1865,
-      "hairColor":"ORANGE",
-      "nationality":"JAPAN"
+    "id": 2,
+    "name": "nafme",
+    "coordinates": {
+      "x": 1.6,
+      "y": 12
+    },
+    "creationDate": [
+      2024,
+      3,
+      1,
+      17,
+      58,
+      25,
+      241525500
+    ],
+    "minimalPoint": 13,
+    "averagePoint": 11,
+    "difficulty": "EASY",
+    "author": {
+      "name": "art",
+      "birthday": 1216212,
+      "height": 1865,
+      "hairColor": "ORANGE",
+      "nationality": "JAPAN"
+    }
+  },
+  {
+    "id": 1456023808,
+    "name": "artem",
+    "coordinates": {
+      "x": 1.1,
+      "y": 1
+    },
+    "creationDate": null,
+    "minimalPoint": 1,
+    "averagePoint": 1,
+    "difficulty": "EASY",
+    "author": {
+      "name": "sobnadojnbkljadn bj",
+      "birthday": 1007067600000,
+      "height": -1,
+      "hairColor": "BLUE",
+      "nationality": "JAPAN"
+    }
+  },
+  {
+    "id": 1998373297,
+    "name": "1",
+    "coordinates": {
+      "x": 1.1,
+      "y": 1
+    },
+    "creationDate": [
+      2024,
+      3,
+      6,
+      19,
+      13,
+      20,
+      463524500
+    ],
+    "minimalPoint": 1,
+    "averagePoint": 1,
+    "difficulty": "EASY",
+    "author": {
+      "name": "4",
+      "birthday": 1070139600000,
+      "height": -1,
+      "hairColor": "BLUE",
+      "nationality": "JAPAN"
     }
   }
 ]
