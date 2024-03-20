@@ -9,11 +9,11 @@ public class ExecuteScript extends Command{
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return description;
     }
 }

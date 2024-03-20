@@ -25,8 +25,8 @@ public class LabWorkServiceImpl implements LabWorkService{
     }
 
     @Override
-    public void removeById(int id) {
-        labWorkRepository.removeById(id);
+    public boolean removeById(int id) {
+        return labWorkRepository.removeById(id);
     }
 
     @Override
@@ -40,13 +40,18 @@ public class LabWorkServiceImpl implements LabWorkService{
     }
 
     @Override
-    public LinkedHashSet<LabWork> show() {
-        return labWorkRepository.show();
+    public LinkedHashSet<LabWork> getCollection() {
+        return labWorkRepository.getCollection();
     }
 
     @Override
     public void updateById(LabWork labW, int id) {
         labWorkRepository.updateById(labW, id);
+    }
+
+    @Override
+    public String getCollectionInfo() {
+        return labWorkRepository.getCollectionInfo();
     }
 
 }

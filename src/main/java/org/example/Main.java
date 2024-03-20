@@ -1,10 +1,9 @@
 package org.example;
 
 import org.example.controller.CommandController;
+import org.example.controller.StreamController;
 import org.example.controller.ConsoleController;
-import org.example.model.Difficulty;
-import org.example.repository.LabWorkRepository;
-import org.example.repository.LabWorkRepositoryImpl;
+import org.example.controller.ProgramController;
 import org.example.util.NameUtil;
 
 import java.io.File;
@@ -14,6 +13,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         NameUtil nameUtil = NameUtil.getInstance();
+        StreamController consoleController = ConsoleController.getInstance();
 
         String fileName = "";
 
@@ -43,7 +43,7 @@ public class Main {
 
 
         CommandController cc = new CommandController();
-        ConsoleController cn = new ConsoleController(cc);
+        ProgramController cn = new ProgramController(cc);
 
         cn.run();
 

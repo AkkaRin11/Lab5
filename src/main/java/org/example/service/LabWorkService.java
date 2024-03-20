@@ -10,9 +10,11 @@ public interface LabWorkService {
 
     void add(LabWork lb);
     void clear();
-    void removeById(int id);
+    boolean removeById(int id);
     void removeGreater(LabWork lb);
     void save();
-    LinkedHashSet<LabWork> show();
+    LinkedHashSet<LabWork> getCollection();
     void updateById(LabWork labW, int id);
+
+    String getCollectionInfo();
 }
