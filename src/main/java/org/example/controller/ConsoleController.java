@@ -43,7 +43,7 @@ public class ConsoleController implements StreamController {
 
         // name
         while (lb.getName() == null || lb.getName().isEmpty()) {
-            System.out.print("name: ");
+            print("name: ");
 
             String line = sc.nextLine();
 

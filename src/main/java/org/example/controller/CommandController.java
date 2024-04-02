@@ -37,6 +37,7 @@ public class CommandController {
     }
 
     public void executeCommand(String commandName, String... args) {
+
         Command command = commands.get(commandName);
         command.execute(args);
         commandHistory.Add(command);

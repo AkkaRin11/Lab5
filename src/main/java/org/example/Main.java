@@ -20,7 +20,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         while (Objects.equals(fileName, "")) {
-            System.out.print("Введите имя файла с колекцией: ");
+            consoleController.print("Введите имя файла с колекцией: ");
 
             String line = sc.nextLine();
             String[] str = line.split("\\s+");
@@ -29,7 +29,10 @@ public class Main {
 
             try {
                 file = new File("src/main/java/org/example/data/" + str[0]);
-            } catch (Exception ignored){}
+            } catch (Exception e){
+                System.out.println("Файл не существет, проверьте правильность имени и попробуйте ещё");
+                continue;
+            }
 
 
             if (file.exists()){
@@ -42,8 +45,7 @@ public class Main {
         nameUtil.setName(fileName);
 
 
-        CommandController cc = new CommandController();
-        ProgramController cn = new ProgramController(cc);
+        ProgramController cn = new ProgramController();
 
         cn.run();
 
