@@ -1,22 +1,19 @@
 package org.example.command;
 
-import org.example.command_support.CommandHistory;
-import org.example.controller.StreamController;
-import org.example.controller.ConsoleController;
+import org.example.controller.ObjectController;
 import org.example.service.LabWorkService;
 import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
 
 public class History extends Command{
     private final LabWorkService labWorkService;
-    private final StreamController consoleController;
-    private final CommandHistory commandHistory;
+    private final org.example.command_support.History history;
+    private final ObjectController objectController = new ObjectController();
 
     public History(){
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
-        consoleController = ConsoleController.getInstance();
-        commandHistory = CommandHistory.getInstance();
+        history = org.example.command_support.History.getInstance();
 
         argSize = 0;
         name = "history";
@@ -26,15 +23,15 @@ public class History extends Command{
     @Override
     public void execute(String... args) {
         if (!isSizeCorrect(args.length)){
-            consoleController.print("Неверное количество аргументов, ожидалось: " + argSize +
+            objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }
 
-        var list = commandHistory.getCommandHistory();
+        var list = history.getCommandHistory();
 
         for(Command to: list){
-            consoleController.print(to.name);
+            objectController.print(to.name);
         }
     }
 

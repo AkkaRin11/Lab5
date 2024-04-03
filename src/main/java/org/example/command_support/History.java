@@ -2,31 +2,37 @@ package org.example.command_support;
 
 import lombok.Getter;
 import org.example.command.Command;
-import org.example.model.LabWork;
-import org.example.repository.LabWorkRepositoryImpl;
 
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Getter
-public class CommandHistory {
+public class History {
     private final int maxHistorySize;
     private final List<Command> commandHistory;
+    private final Set<String> workingScripts;
 
-    private static CommandHistory instance;
+    private static History instance;
 
-    public static CommandHistory getInstance(){
+    public static History getInstance(){
         if (instance == null){
-            instance = new CommandHistory();
+            instance = new History();
         }
 
         return instance;
     }
 
-    private CommandHistory(){
+    private History(){
         maxHistorySize = 14;
         commandHistory = new LinkedList<>();
+        workingScripts = new HashSet<>();
+    }
+
+    public boolean isScriptWorking(String name){
+        return workingScripts.contains(name);
+    }
+
+    public void addScript(String name){
+        workingScripts.add(name);
     }
 
     public void Add(Command command){

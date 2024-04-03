@@ -28,7 +28,7 @@ public class Main {
             File file = null;
 
             try {
-                file = new File("src/main/java/org/example/data/" + str[0]);
+                file = new File(str[0]);
             } catch (Exception e){
                 System.out.println("Файл не существет, проверьте правильность имени и попробуйте ещё");
                 continue;

@@ -40,46 +40,13 @@ public class ProgramController {
             String[] args = new String[str.length-1];
             System.arraycopy(str, 1, args, 0, str.length - 1);
 
+            for (var to: args){
+                System.out.println(to);
+            }
+
             commandController.executeCommand(str[0], args);
         }
 
-    }
-
-    public void startSubroutine(String fileName){
-        StreamController streamController;
-
-        try {
-            streamController = new FileController(fileName);
-        } catch (FileNotFoundException e) {
-            consoleController.print("Файла не существует");
-            return;
-        }
-
-        while (streamController.hasNext()) {
-            String line = streamController.readNextLine();
-
-            if (line.isEmpty()){
-                continue;
-            }
-
-            String[] str = line.split("\\s+");
-
-            if (str.length == 0){
-                continue;
-            }
-
-            if (!commandController.isValidCommand(str[0])){
-                consoleController.print(str[0] + ": Имя " + str[0] +
-                        "не распознано как имя командлета, функции, файла сценария или выполняемой программы\n" +
-                        "Проверьте правильность написания имени, после чего повторите попытку.");
-                continue;
-            }
-
-            String[] args = new String[str.length-1];
-            System.arraycopy(str, 1, args, 0, str.length - 1);
-
-            commandController.executeCommand(str[0], args);
-        }
     }
 
 }

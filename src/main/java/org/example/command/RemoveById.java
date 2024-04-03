@@ -1,5 +1,6 @@
 package org.example.command;
 
+import org.example.controller.ObjectController;
 import org.example.controller.StreamController;
 import org.example.controller.ConsoleController;
 import org.example.service.LabWorkService;
@@ -8,12 +9,11 @@ import org.example.util.NameUtil;
 
 public class RemoveById extends Command{
     private final LabWorkService labWorkService;
-    private final StreamController consoleController;
+    private final ObjectController objectController = new ObjectController();
 
     public RemoveById(){
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
-        consoleController = ConsoleController.getInstance();
 
         argSize = 1;
         name = "remove_by_id";
@@ -23,7 +23,7 @@ public class RemoveById extends Command{
     @Override
     public void execute(String... args) {
         if (!isSizeCorrect(args.length)){
-            consoleController.print("Неверное количество аргументов, ожидалось: " + argSize +
+            objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }
@@ -33,14 +33,14 @@ public class RemoveById extends Command{
         if (args[0].matches("^[-+]?\\d+$")){
             flag = labWorkService.removeById(Integer.parseInt(args[0]));
         } else {
-            consoleController.print("Введённый аргумент не является целым числом");
+            objectController.print("Введённый аргумент не является целым числом");
             return;
         }
 
         if (flag){
-            consoleController.print("Элемент был успешно удалён");
+            objectController.print("Элемент был успешно удалён");
         } else {
-            consoleController.print("Элемент не был удалён");
+            objectController.print("Элемент не был удалён");
         }
     }
 

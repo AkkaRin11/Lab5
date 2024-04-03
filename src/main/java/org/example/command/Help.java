@@ -1,13 +1,14 @@
 package org.example.command;
 
+import org.example.controller.ObjectController;
 import org.example.controller.StreamController;
 import org.example.controller.ConsoleController;
 
 public class Help extends Command{
-    private final StreamController consoleController;
+    private final ObjectController objectController;
 
     public Help(){
-        consoleController = ConsoleController.getInstance();
+        objectController = new ObjectController();
 
         argSize = 0;
         name = "help";
@@ -17,12 +18,12 @@ public class Help extends Command{
     @Override
     public void execute(String... args) {
         if (!isSizeCorrect(args.length)){
-            consoleController.print("Неверное количество аргументов, ожидалось: " + argSize +
+            objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }
 
-        consoleController.printHelp();
+        objectController.printHelp();
     }
 
     @Override

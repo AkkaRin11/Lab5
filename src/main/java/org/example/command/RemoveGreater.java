@@ -1,5 +1,6 @@
 package org.example.command;
 
+import org.example.controller.ObjectController;
 import org.example.controller.StreamController;
 import org.example.controller.ConsoleController;
 import org.example.model.LabWork;
@@ -9,12 +10,12 @@ import org.example.util.NameUtil;
 
 public class RemoveGreater extends Command{
     private final LabWorkService labWorkService;
-    private final StreamController consoleController;
+    private final ObjectController objectController;
 
     public RemoveGreater(){
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
-        consoleController = ConsoleController.getInstance();
+        objectController = new ObjectController();
 
         argSize = 0;
         name = "remove_greater";
@@ -24,12 +25,12 @@ public class RemoveGreater extends Command{
     @Override
     public void execute(String... args) {
         if (!isSizeCorrect(args.length)){
-            consoleController.print("Неверное количество аргументов, ожидалось: " + argSize +
+            objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }
 
-        LabWork labWork = consoleController.getLabWorkObj();
+        LabWork labWork = objectController.getLabWorkObj();
 
 
     }

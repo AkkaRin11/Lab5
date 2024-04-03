@@ -16,5 +16,7 @@ public interface LabWorkService {
     LinkedHashSet<LabWork> getCollection();
     void updateById(LabWork labW, int id);
 
+    boolean addIfMax(LabWork labWork);
+
     String getCollectionInfo();
 }

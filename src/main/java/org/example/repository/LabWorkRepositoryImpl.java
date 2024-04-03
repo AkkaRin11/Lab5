@@ -15,7 +15,7 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
 
     private final LinkedHashSet<LabWork> labWorks;
 
-    private final String fileName;
+    private final Parser parser;
 
     public static LabWorkRepositoryImpl getInstance(String fileName){
         if (instance == null){
@@ -26,29 +26,8 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
     }
 
     private LabWorkRepositoryImpl(String fileName){
-        this.fileName = fileName;
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new JSR310Module());
-
-            String stringJson = "";
-
-            Scanner scanner = new Scanner(new File("src/main/java/org/example/data/"
-                    + fileName));
-
-            while (scanner.hasNextLine()) {
-                stringJson += scanner.nextLine();
-            }
-
-            scanner.close();
-
-            labWorks = mapper.readValue(stringJson, new TypeReference<LinkedHashSet<LabWork>>() {});
-
-
-        } catch (FileNotFoundException | JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        parser = Parser.getInstance(fileName);
+        labWorks = parser.read(fileName);
     }
 
     @Override
@@ -97,27 +76,7 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
 
     @Override
     public void save() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JSR310Module());
-
-        String jsonStr;
-
-        try { // потом это отсюда убираем и протаскиваем исключение выше по слоям
-            jsonStr = mapper.writeValueAsString(labWorks);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        try {
-            FileWriter writer = new FileWriter("src/main/java/org/example/data/"
-                    + fileName); // тут ещё путь нужно норм указывать
-            writer.write(jsonStr);
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+        parser.save(labWorks);
     }
 
     @Override

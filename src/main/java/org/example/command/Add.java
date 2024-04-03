@@ -1,5 +1,6 @@
 package org.example.command;
 
+import org.example.controller.ObjectController;
 import org.example.controller.StreamController;
 import org.example.controller.ConsoleController;
 import org.example.model.*;
@@ -9,12 +10,12 @@ import org.example.util.NameUtil;
 
 public class Add extends Command{
     private final LabWorkService labWorkService;
-    private final StreamController consoleController;
+    private final ObjectController objectController;
 
     public Add(){
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
-        consoleController = ConsoleController.getInstance();
+        objectController = new ObjectController();
 
         argSize = 0;
         name = "add";
@@ -25,16 +26,16 @@ public class Add extends Command{
     public void execute(String... args) {
 
         if (!isSizeCorrect(args.length)){
-            consoleController.print("Неверное количество аргументов, ожидалось: " + argSize +
+            objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }
 
-        LabWork lb = consoleController.getLabWorkObj();
+        LabWork lb = objectController.getLabWorkObj();
 
         labWorkService.add(lb);
 
-        consoleController.print("Коллекция успешно добавлена");
+        objectController.print("Коллекция успешно добавлена");
     }
 
     @Override

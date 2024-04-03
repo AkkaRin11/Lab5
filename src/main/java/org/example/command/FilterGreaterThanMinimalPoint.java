@@ -1,5 +1,6 @@
 package org.example.command;
 
+import org.example.controller.ObjectController;
 import org.example.controller.StreamController;
 import org.example.controller.ConsoleController;
 import org.example.model.LabWork;
@@ -9,12 +10,11 @@ import org.example.util.NameUtil;
 
 public class FilterGreaterThanMinimalPoint extends Command{
     private final LabWorkService labWorkService;
-    private final StreamController consoleController;
+    private final ObjectController objectController = new ObjectController();
 
     public FilterGreaterThanMinimalPoint(){
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
-        consoleController = ConsoleController.getInstance();
 
         argSize = 1;
         name = "filter_greater_than_minimal_point";
@@ -24,7 +24,7 @@ public class FilterGreaterThanMinimalPoint extends Command{
     @Override
     public void execute(String... args) {
         if (!isSizeCorrect(args.length)){
-            consoleController.print("Неверное количество аргументов, ожидалось: " + argSize +
+            objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }
@@ -36,15 +36,15 @@ public class FilterGreaterThanMinimalPoint extends Command{
 
             for(LabWork to: collection){
                 if (to.getMinimalPoint() > minPoint){
-                    consoleController.printLabWorkObj(to);
+                    objectController.printLabWorkObj(to);
                 }
             }
         } else {
-            consoleController.print("Введённый аргумент не является целым числом");
+            objectController.print("Введённый аргумент не является целым числом");
             return;
         }
 
-        consoleController.print("Подходящие объекты были удалены");
+        objectController.print("Подходящие объекты были удалены");
     }
 
     @Override
