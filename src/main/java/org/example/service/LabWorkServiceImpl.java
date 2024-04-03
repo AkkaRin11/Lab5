@@ -50,6 +50,25 @@ public class LabWorkServiceImpl implements LabWorkService{
     }
 
     @Override
+    public boolean addIfMax(LabWork labWork) {
+        long max = Integer.MIN_VALUE;
+
+        var collection = getCollection();
+
+        for(LabWork to: collection){
+            max = Math.max(max, to.getMinimalPoint());
+        }
+
+        if (labWork.getMinimalPoint() > max){
+            add(labWork);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public String getCollectionInfo() {
         return labWorkRepository.getCollectionInfo();
     }

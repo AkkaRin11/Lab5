@@ -1,14 +1,17 @@
 package org.example.command;
 
+import org.example.command_support.History;
 import org.example.controller.*;
 
 public class ExecuteScript extends Command{
     private final ProgramStateController programStateController;
     private final ObjectController objectController;
+    private final History history;
 
     public ExecuteScript(){
         objectController = new ObjectController();
         programStateController = ProgramStateController.getInstance();
+        history = History.getInstance();
 
         argSize = 1;
         name = "execute_script";
@@ -20,6 +23,12 @@ public class ExecuteScript extends Command{
             objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
+        }
+
+        if (history.isScriptWorking(args[0])){
+            return;
+        } else {
+            history.addScript(args[0]);
         }
 
         programStateController.setProgramState(ProgramState.ReadFromFile);

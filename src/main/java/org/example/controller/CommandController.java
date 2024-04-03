@@ -2,17 +2,15 @@ package org.example.controller;
 
 import lombok.Getter;
 import org.example.command.*;
-import org.example.command_support.CommandHistory;
+import org.example.command_support.History;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CommandController {
     @Getter
     private static Map<String, Command> commands;
-    private final CommandHistory commandHistory;
+    private final History history;
 
     static {
         commands = new LinkedHashMap<>();
@@ -25,7 +23,7 @@ public class CommandController {
         commands.put("filter_contains_name", new FilterContainsName());
         commands.put("filter_greater_than_minimal_point", new FilterGreaterThanMinimalPoint());
         commands.put("help", new Help());
-        commands.put("history", new History());
+        commands.put("history", new org.example.command.History());
         commands.put("info", new Info());
         commands.put("remove_by_id", new RemoveById());
         commands.put("remove_greater", new RemoveGreater());
@@ -37,14 +35,14 @@ public class CommandController {
 
 
     public CommandController() {
-        commandHistory = CommandHistory.getInstance();
+        history = History.getInstance();
     }
 
     public void executeCommand(String commandName, String... args) {
 
         Command command = getCommandByName(commandName);
         command.execute(args);
-        commandHistory.Add(command);
+        history.Add(command);
     }
 
     public boolean isValidCommand(String input){

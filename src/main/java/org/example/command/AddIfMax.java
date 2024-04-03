@@ -32,17 +32,9 @@ public class AddIfMax extends Command{
 
         LabWork labWork = objectController.getLabWorkObj();
 
-        long max = Integer.MIN_VALUE;
+        boolean res = labWorkService.addIfMax(labWork);
 
-        var collection = labWorkService.getCollection();
-
-        for(LabWork to: collection){
-            max = Math.max(max, to.getMinimalPoint());
-        }
-
-        if (labWork.getMinimalPoint() > max){
-            labWorkService.add(labWork);
-
+        if (res){
             objectController.print("Элемент наибольший, добавлен");
         } else {
             objectController.print("Элемент не наибольший, не добавлен");
