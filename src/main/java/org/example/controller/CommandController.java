@@ -11,12 +11,11 @@ import java.util.Map;
 
 public class CommandController {
     @Getter
-    private final Map<String, Command> commands;
+    private static Map<String, Command> commands;
     private final CommandHistory commandHistory;
 
-    public CommandController() {
+    static {
         commands = new LinkedHashMap<>();
-        commandHistory = CommandHistory.getInstance();
 
         commands.put("add", new Add());
         commands.put("add_if_max", new AddIfMax());
@@ -36,15 +35,24 @@ public class CommandController {
         commands.put("update", new Update());
     }
 
+
+    public CommandController() {
+        commandHistory = CommandHistory.getInstance();
+    }
+
     public void executeCommand(String commandName, String... args) {
 
-        Command command = commands.get(commandName);
+        Command command = getCommandByName(commandName);
         command.execute(args);
         commandHistory.Add(command);
     }
 
     public boolean isValidCommand(String input){
         return commands.get(input) != null;
+    }
+
+    public static Command getCommandByName(String commandName){
+        return commands.get(commandName);
     }
 
 }

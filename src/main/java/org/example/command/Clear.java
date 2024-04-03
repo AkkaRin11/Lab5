@@ -1,5 +1,6 @@
 package org.example.command;
 
+import org.example.controller.ObjectController;
 import org.example.controller.StreamController;
 import org.example.controller.ConsoleController;
 import org.example.service.LabWorkService;
@@ -9,12 +10,11 @@ import org.example.util.NameUtil;
 
 public class Clear extends Command{
     private final LabWorkService labWorkService;
-    private final StreamController consoleController;
+    private final ObjectController objectController = new ObjectController();
 
     public Clear(){
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
-        consoleController = ConsoleController.getInstance();
 
         argSize = 0;
         name = "clear";
@@ -24,14 +24,14 @@ public class Clear extends Command{
     @Override
     public void execute(String... args) {
         if (!isSizeCorrect(args.length)){
-            consoleController.print("Неверное количество аргументов, ожидалось: " + argSize +
+            objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }
 
         labWorkService.clear();
 
-        consoleController.print("Коллекция успешно очищена");
+        objectController.print("Коллекция успешно очищена");
     }
 
     @Override

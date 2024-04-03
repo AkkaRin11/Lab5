@@ -1,5 +1,6 @@
 package org.example.command;
 
+import org.example.controller.ObjectController;
 import org.example.controller.StreamController;
 import org.example.controller.ConsoleController;
 import org.example.model.LabWork;
@@ -9,12 +10,12 @@ import org.example.util.NameUtil;
 
 public class Update extends Command{
     private final LabWorkService labWorkService;
-    private final StreamController consoleController;
+    private final ObjectController objectController;
 
     public Update(){
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
-        consoleController = ConsoleController.getInstance();
+        objectController = new ObjectController();
 
         argSize = 1;
         name = "update";
@@ -24,7 +25,7 @@ public class Update extends Command{
     @Override
     public void execute(String... args) {
         if (!isSizeCorrect(args.length)){
-            consoleController.print("Неверное количество аргументов, ожидалось: " + argSize +
+            objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }
@@ -45,19 +46,19 @@ public class Update extends Command{
             }
 
             if (!flag){
-                consoleController.print("Элемента с таким id не существует");
+                objectController.print("Элемента с таким id не существует");
                 return;
             }
 
-            LabWork labWork = consoleController.getLabWorkObj();
+            LabWork labWork = objectController.getLabWorkObj();
 
             labWorkService.removeById(id);
             labWorkService.add(labWork);
 
-            consoleController.print("Объект успешно обновлённ");
+            objectController.print("Объект успешно обновлённ");
 
         } else {
-            consoleController.print("Введённый аргумент не является целым числом");
+            objectController.print("Введённый аргумент не является целым числом");
             return;
         }
 

@@ -1,5 +1,6 @@
 package org.example.command;
 
+import org.example.controller.ObjectController;
 import org.example.controller.StreamController;
 import org.example.controller.ConsoleController;
 import org.example.service.LabWorkService;
@@ -8,12 +9,11 @@ import org.example.util.NameUtil;
 
 public class Exit extends Command{
     private final LabWorkService labWorkService;
-    private final StreamController consoleController;
+    private final ObjectController objectController = new ObjectController();
 
     public Exit(){
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
-        consoleController = ConsoleController.getInstance();
 
         argSize = 0;
         name = "exit";
@@ -23,7 +23,7 @@ public class Exit extends Command{
     @Override
     public void execute(String... args) {
         if (!isSizeCorrect(args.length)){
-            consoleController.print("Неверное количество аргументов, ожидалось: " + argSize +
+            objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }

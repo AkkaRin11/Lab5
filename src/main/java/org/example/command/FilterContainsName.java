@@ -1,5 +1,6 @@
 package org.example.command;
 
+import org.example.controller.ObjectController;
 import org.example.controller.StreamController;
 import org.example.controller.ConsoleController;
 import org.example.model.LabWork;
@@ -9,12 +10,11 @@ import org.example.util.NameUtil;
 
 public class FilterContainsName extends Command{
     private final LabWorkService labWorkService;
-    private final StreamController consoleController;
+    private final ObjectController objectController = new ObjectController();
 
     public FilterContainsName(){
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
-        consoleController = ConsoleController.getInstance();
 
         argSize = 1;
         name = "filter_contains_name";
@@ -24,7 +24,7 @@ public class FilterContainsName extends Command{
     @Override
     public void execute(String... args) {
         if (!isSizeCorrect(args.length)){
-            consoleController.print("Неверное количество аргументов, ожидалось: " + argSize +
+            objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }
@@ -33,7 +33,7 @@ public class FilterContainsName extends Command{
 
         for(LabWork to: collection){
             if (to.getName().contains(args[0])){
-                consoleController.printLabWorkObj(to);
+                objectController.printLabWorkObj(to);
             }
         }
     }

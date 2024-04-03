@@ -4,6 +4,8 @@ import org.example.command.Command;
 import org.example.dto.*;
 import org.example.model.LabWork;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -22,6 +24,7 @@ public class ConsoleController implements StreamController {
         return instance;
     }
 
+    @Override
     public void print(String ... str){
         for(String to: str){
             System.out.print(to + " ");
@@ -29,40 +32,91 @@ public class ConsoleController implements StreamController {
         System.out.println();
     }
 
+    @Override
     public boolean hasNext(){
         return sc.hasNext();
     }
 
+    @Override
     public String readNextLine(){
         return sc.nextLine();
     }
 
     @Override
-    public LabWork getLabWorkObj() {
-        LabWorkDto lb = new LabWorkDto((int) (Math.random() * Integer.MAX_VALUE), null, null, null, -1, null, null, null);
+    public <T extends Enum<T>> T readEnum(Class<T> enumClass){
+        print("Введите одно из значений ниже");
 
-        // name
-        while (lb.getName() == null || lb.getName().isEmpty()) {
-            print("name: ");
+        for (var to: enumClass.getEnumConstants()){
+            print("> " + to);
+        }
 
-            String line = sc.nextLine();
+        T en = null;
+
+        while (en == null) {
+            System.out.print(enumClass.getSimpleName() + ": ");
+
+            String line = readNextLine();
 
             if (line.isEmpty()){
-                print("name не может быть пустой строкой");
+                print(enumClass.getSimpleName() + " не может быть пустой строкой");
                 continue;
             }
 
-            lb.setName(line);
+            T a;
+
+            try {
+                a = T.valueOf(enumClass, line);
+            } catch (Exception e) {
+                print("Такого значения для " + enumClass.getSimpleName() + " не существует");
+                continue;
+            }
+
+            en = a;
         }
 
-        CoordinatesDto coordinatesDto = new CoordinatesDto(null, null);
+        return en;
+    }
 
+    @Override
+    public long readLong(String name){
+        Long res = null;
 
-        // x
-        while (coordinatesDto.getX() == null) {
-            print("x: ");
+        while (res == null) {
+            print(name + ": ");
 
-            String line = sc.nextLine();
+            String line = readNextLine();
+            String[] str = line.split("\\s+");
+
+            if (str.length != 1){
+                print("Некорректное количество аргументов");
+                continue;
+            }
+
+            if (str[0].matches("^[-+]?\\d+$")){
+
+                long a = 0;
+
+                try {
+                    a = Long.parseLong(str[0]);
+                } catch (Exception ignored){}
+
+                res = a;
+            } else {
+                print(name + " может быть только целым числом");
+            }
+        }
+
+        return res;
+    }
+
+    @Override
+    public double readDouble(String name){
+        Double res = null;
+
+        while (res == null) {
+            print(name + ": ");
+
+            String line = readNextLine();
             String[] str = line.split("\\s+");
 
             if (str.length != 1){
@@ -78,284 +132,33 @@ public class ConsoleController implements StreamController {
                     a = Double.parseDouble(str[0]);
                 } catch (Exception ignored){}
 
-                if (a >= 365){
-                    print("x может быть только целым числом меньше 365");
-                    continue;
-                }
-
-                coordinatesDto.setX(a);
+                res = a;
             } else {
-                print("x должен быть вещственным числом меньеше 365");
+                print(name + " должен быть вещственным числом");
             }
         }
 
+        return res;
+    }
 
+    @Override
+    public String readString(String name) {
+        String str = "";
 
-        // y
-        while (coordinatesDto.getY() == null) {
-            print("y: ");
+        while (str.isEmpty()) {
+            print(name + ": ");
 
-            String line = sc.nextLine();
-            String[] str = line.split("\\s+");
+            String line = readNextLine();
 
-            if (str.length != 1){
-                print("Некорректное количество аргументов");
+            if (line.isEmpty()) {
+                print("Строка не может быть пустой");
                 continue;
             }
 
-            if (str[0].matches("^[-+]?\\d+$")){
-
-                long a = 0;
-
-                try {
-                    a = Long.parseLong(str[0]);
-                } catch (Exception ignored){}
-
-                if (a <= -592){
-                    print("y может быть только целым числом больше -592");
-                    continue;
-                }
-
-                coordinatesDto.setY(a);
-            } else {
-                print("y может быть только целым числом больше -592");
-            }
+            str = line;
         }
 
-        lb.setCoordinates(coordinatesDto);
-
-
-        // minimalPoint
-        while (lb.getMinimalPoint() == -1) {
-            print("minimal point: ");
-
-            String line = sc.nextLine();
-            String[] str = line.split("\\s+");
-
-            if (str.length != 1){
-                print("Некорректное количество аргументов");
-                continue;
-            }
-
-            if (str[0].matches("^[-+]?\\d+$")){
-
-                long a = 0;
-
-                try {
-                    a = Long.parseLong(str[0]);
-                } catch (Exception ignored){}
-
-                if (a <= 0){
-                    print("minimal point может быть только целым числом больш 0");
-                    continue;
-                }
-
-                lb.setMinimalPoint(a);
-            } else {
-                print("minimal point может быть только целым числом больш 0");
-            }
-        }
-
-
-        // average point
-        while (lb.getAveragePoint() == null) {
-            print("average point point: ");
-
-            String line = sc.nextLine();
-            String[] str = line.split("\\s+");
-
-            if (str.length != 1){
-                print("Некорректное количество аргументов");
-                continue;
-            }
-
-            if (str[0].matches("^[-+]?\\d+$")){
-
-                long a = 0;
-
-                try {
-                    a = Long.parseLong(str[0]);
-                } catch (Exception ignored){}
-
-                if (a <= 0){
-                    print("average point может быть только целым числом больш 0");
-                    continue;
-                }
-
-                lb.setAveragePoint(a);
-            } else {
-                print("average point может быть только целым числом больш 0");
-            }
-        }
-
-
-        // difficulty
-        print("Введите одно из значений ниже");
-        for (var to: DifficultyDto.values()){
-            print("> " + to);
-        }
-
-        while (lb.getDifficulty() == null) {
-            print("difficulty: ");
-
-            String line = sc.nextLine();
-
-            if (line.isEmpty()){
-                print("difficulty не может быть пустой строкой");
-                continue;
-            }
-
-            DifficultyDto a;
-
-            try {
-                a = DifficultyDto.valueOf(line);
-            } catch (Exception e){
-                print("Такого значения для difficulty не существует");
-                continue;
-            }
-
-            lb.setDifficulty(a);
-        }
-
-
-        PersonDto personDto = new PersonDto(null, null, -1, null, null);
-
-        //person.name
-        while (personDto.getName() == null || personDto.getName().isEmpty()) {
-            print("person.name: ");
-
-            String line = sc.nextLine();
-
-            if (line.isEmpty()){
-                print("person.name не может быть пустой строкой");
-                continue;
-            }
-
-            personDto.setName(line);
-        }
-
-        //person.date
-        while (personDto.getBirthday() == null) {
-            print("date(year month day): ");
-
-            String line = sc.nextLine();
-            String[] str = line.split("\\s+");
-
-            if (str.length != 3){
-                print("Некорректное количество аргументов, ожидается 3, получено " + str.length);
-                continue;
-            }
-
-            int a = 0;
-            if (str[0].matches("^[+]?\\d+$")){
-
-                try {
-                    a = Integer.parseInt(str[0]);
-                } catch (Exception ignored){}
-
-            } else {
-                print("year может быть только положительным целым числом");
-                continue;
-            }
-
-            int b = 0;
-            if (str[0].matches("^[+]?\\d+$")){
-
-                try {
-                    a = Integer.parseInt(str[0]);
-                } catch (Exception ignored){}
-
-            } else {
-                print("month может быть только положительным целым числом");
-                continue;
-            }
-
-            int c = 0;
-            if (str[0].matches("^[+]?\\d+$")){
-
-                try {
-                    a = Integer.parseInt(str[0]);
-                } catch (Exception ignored){}
-
-            } else {
-                print("day может быть только положительным целым числом");
-                continue;
-            }
-
-            Date date;
-
-            try {
-                Calendar calendar = new GregorianCalendar(a, b-1, c);
-                date = calendar.getTime();
-            } catch (Exception e){
-                print("date не валидна");
-                continue;
-            }
-
-
-            personDto.setBirthday(date);
-        }
-
-        print("Введите одно из значений ниже");
-        for (var to: ColorDto.values()){
-            print("> " + to);
-        }
-
-        while (personDto.getHairColor() == null) {
-            System.out.print("hair color: ");
-
-            String line = sc.nextLine();
-
-            if (line.isEmpty()){
-                print("hair color не может быть пустой строкой");
-                continue;
-            }
-
-            ColorDto a;
-
-            try {
-                a = ColorDto.valueOf(line);
-            } catch (Exception e){
-                print("Такого значения для hair color не существует");
-                continue;
-            }
-
-            personDto.setHairColor(a);
-        }
-
-
-        print("Введите одно из значений ниже");
-        for (var to: CountryDto.values()){
-            print("> " + to);
-        }
-
-        while (personDto.getNationality() == null) {
-            print("nationality: ");
-
-            String line = sc.nextLine();
-
-            if (line.isEmpty()){
-                print("nationality не может быть пустой строкой");
-                continue;
-            }
-
-            CountryDto a;
-
-            try {
-                a = CountryDto.valueOf(line);
-            } catch (Exception e){
-                print("Такого значения для nationality не существует");
-                continue;
-            }
-
-            personDto.setNationality(a);
-        }
-
-        lb.setAuthor(personDto);
-
-        lb.setCreationDate(LocalDateTime.now());
-
-        return LabWorkDto.toDomainObject(lb);
+        return str;
     }
 
     @Override
@@ -371,6 +174,7 @@ public class ConsoleController implements StreamController {
 
     }
 
+
     @Override
     public void printLabWorkObjs(LinkedHashSet<LabWork> labWork) {
         for (LabWork to: labWork){
@@ -379,14 +183,6 @@ public class ConsoleController implements StreamController {
 
         if (labWork.isEmpty()){
             print("Коллекция пуста");
-        }
-    }
-
-    @Override
-    public void printHelp() {
-        CommandController commandController = new CommandController();
-        for (Map.Entry<String, Command> entry : commandController.getCommands().entrySet()) {
-            print(entry.getValue().toString());
         }
     }
 }
