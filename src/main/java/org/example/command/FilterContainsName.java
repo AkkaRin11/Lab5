@@ -1,18 +1,24 @@
 package org.example.command;
 
 import org.example.controller.ObjectController;
-import org.example.controller.StreamController;
-import org.example.controller.ConsoleController;
 import org.example.model.LabWork;
 import org.example.service.LabWorkService;
 import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
 
-public class FilterContainsName extends Command{
+import java.util.LinkedHashSet;
+
+/**
+ *
+ * Команда возвращающая все элементы содержащие данную строку в имени
+ *
+ */
+
+public class FilterContainsName extends Command {
     private final LabWorkService labWorkService;
     private final ObjectController objectController = new ObjectController();
 
-    public FilterContainsName(){
+    public FilterContainsName() {
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
 
@@ -23,19 +29,15 @@ public class FilterContainsName extends Command{
 
     @Override
     public void execute(String... args) {
-        if (!isSizeCorrect(args.length)){
+        if (!isSizeCorrect(args.length)) {
             objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }
 
-        var collection = labWorkService.getCollection();
+        LinkedHashSet<LabWork> filteredCollection = labWorkService.getCollectionByContainsName(args[0]);
 
-        for(LabWork to: collection){
-            if (to.getName().contains(args[0])){
-                objectController.printLabWorkObj(to);
-            }
-        }
+        objectController.printLabWorkObjs(filteredCollection);
     }
 
     @Override

@@ -1,18 +1,26 @@
 package org.example.command;
 
 import org.example.controller.ObjectController;
-import org.example.controller.StreamController;
-import org.example.controller.ConsoleController;
 import org.example.model.LabWork;
 import org.example.service.LabWorkService;
 import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
 
-public class FilterGreaterThanMinimalPoint extends Command{
+import java.util.LinkedHashSet;
+
+import static org.example.util.Validation.checkIntNumber;
+
+
+/**
+ *
+ * Команда возвращающая все элементы коллекции у которых minimal_point больше заданного зачения
+ *
+ */
+public class FilterGreaterThanMinimalPoint extends Command {
     private final LabWorkService labWorkService;
     private final ObjectController objectController = new ObjectController();
 
-    public FilterGreaterThanMinimalPoint(){
+    public FilterGreaterThanMinimalPoint() {
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
 
@@ -23,28 +31,23 @@ public class FilterGreaterThanMinimalPoint extends Command{
 
     @Override
     public void execute(String... args) {
-        if (!isSizeCorrect(args.length)){
+        if (!isSizeCorrect(args.length)) {
             objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }
 
-        if (args[0].matches("^[-+]?\\d+$")){
-            int minPoint = Integer.parseInt(args[0]);
+        if (checkIntNumber(args[0])) {
+            int minimalPoint = Integer.parseInt(args[0]);
 
-            var collection = labWorkService.getCollection();
+            LinkedHashSet<LabWork> filteredCollection =
+                    labWorkService.getCollectionByGreaterMinimalPoint(minimalPoint);
 
-            for(LabWork to: collection){
-                if (to.getMinimalPoint() > minPoint){
-                    objectController.printLabWorkObj(to);
-                }
-            }
+            objectController.printLabWorkObjs(filteredCollection);
         } else {
             objectController.print("Введённый аргумент не является целым числом");
-            return;
         }
 
-        objectController.print("Подходящие объекты были удалены");
     }
 
     @Override

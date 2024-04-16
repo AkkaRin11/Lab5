@@ -1,17 +1,21 @@
 package org.example.command;
 
 import org.example.controller.ObjectController;
-import org.example.controller.StreamController;
-import org.example.controller.ConsoleController;
 import org.example.service.LabWorkService;
 import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
 
-public class Save extends Command{
+/**
+ *
+ * Команда для сохранения коллекции
+ *
+ */
+
+public class Save extends Command {
     private final LabWorkService labWorkService;
     private final ObjectController objectController = new ObjectController();
 
-    public Save(){
+    public Save() {
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
 
@@ -22,7 +26,7 @@ public class Save extends Command{
 
     @Override
     public void execute(String... args) {
-        if (!isSizeCorrect(args.length)){
+        if (!isSizeCorrect(args.length)) {
             objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;

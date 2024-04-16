@@ -13,24 +13,30 @@ import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Scanner;
 
+/**
+ *
+ * Класс взаимодейстующий с файлом
+ *
+ */
+
 public class Parser {
     private static Parser instance;
 
     private final String fileName;
 
-    public static Parser getInstance(String fileName){
-        if (instance == null){
+    public static Parser getInstance(String fileName) {
+        if (instance == null) {
             instance = new Parser(fileName);
         }
 
         return instance;
     }
 
-    public Parser(String fileName){
+    public Parser(String fileName) {
         this.fileName = fileName;
     }
 
-    public LinkedHashSet<LabWork> read(String fileName){
+    public LinkedHashSet<LabWork> read(String fileName) {
         LinkedHashSet<LabWork> labWorks;
 
         try {
@@ -47,7 +53,8 @@ public class Parser {
 
             scanner.close();
 
-            labWorks = mapper.readValue(stringJson, new TypeReference<LinkedHashSet<LabWork>>() {});
+            labWorks = mapper.readValue(stringJson, new TypeReference<LinkedHashSet<LabWork>>() {
+            });
 
 
         } catch (FileNotFoundException | JsonProcessingException e) {
@@ -58,14 +65,13 @@ public class Parser {
     }
 
 
-
     public void save(LinkedHashSet<LabWork> labWorks) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JSR310Module());
 
         String jsonStr;
 
-        try { // потом это отсюда убираем и протаскиваем исключение выше по слоям
+        try {
             jsonStr = mapper.writeValueAsString(labWorks);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -73,7 +79,7 @@ public class Parser {
 
 
         try {
-            FileWriter writer = new FileWriter(fileName); // тут ещё путь нужно норм указывать
+            FileWriter writer = new FileWriter(fileName);
             writer.write(jsonStr);
             writer.close();
         } catch (IOException e) {

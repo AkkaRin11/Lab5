@@ -1,18 +1,22 @@
 package org.example.command;
 
 import org.example.controller.ObjectController;
-import org.example.controller.StreamController;
-import org.example.controller.ConsoleController;
-import org.example.model.*;
+import org.example.model.LabWork;
 import org.example.service.LabWorkService;
 import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
 
-public class Add extends Command{
+/**
+ *
+ * Команда добавлющая элемент
+ *
+ */
+
+public class Add extends Command {
     private final LabWorkService labWorkService;
     private final ObjectController objectController;
 
-    public Add(){
+    public Add() {
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
         objectController = new ObjectController();
@@ -25,7 +29,7 @@ public class Add extends Command{
     @Override
     public void execute(String... args) {
 
-        if (!isSizeCorrect(args.length)){
+        if (!isSizeCorrect(args.length)) {
             objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;

@@ -1,46 +1,35 @@
 package org.example;
 
-import org.example.controller.CommandController;
-import org.example.controller.StreamController;
-import org.example.controller.ConsoleController;
 import org.example.controller.ProgramController;
 import org.example.util.NameUtil;
 
 import java.io.File;
-import java.util.Objects;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         NameUtil nameUtil = NameUtil.getInstance();
-        StreamController consoleController = ConsoleController.getInstance();
 
         String fileName = "";
 
-        Scanner sc = new Scanner(System.in);
+        if (args.length != 1) {
+            System.out.println("Введите название файла с колекцией аргументом командной строки");
+            System.exit(1);
+        }
 
-        while (Objects.equals(fileName, "")) {
-            consoleController.print("Введите имя файла с колекцией: ");
+        File file = null;
 
-            String line = sc.nextLine();
-            String[] str = line.split("\\s+");
+        try {
+            file = new File(args[0]);
+        } catch (Exception e) {
+            System.out.println("Файл не существет, проверьте правильность имени и попробуйте ещё");
+            System.exit(1);
+        }
 
-            File file = null;
-
-            try {
-                file = new File(str[0]);
-            } catch (Exception e){
-                System.out.println("Файл не существет, проверьте правильность имени и попробуйте ещё");
-                continue;
-            }
-
-
-            if (file.exists()){
-                fileName = str[0];
-            } else {
-                System.out.println("Файл не существет, проверьте правильность имени и попробуйте ещё");
-            }
-
+        if (file.exists()) {
+            fileName = args[0];
+        } else {
+            System.out.println("Файл не существет, проверьте правильность имени и попробуйте ещё");
+            System.exit(1);
         }
         nameUtil.setName(fileName);
 

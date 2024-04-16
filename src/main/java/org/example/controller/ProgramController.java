@@ -1,50 +1,66 @@
 package org.example.controller;
 
-import java.io.FileNotFoundException;
+import org.example.repository.LabWorkRepository;
+import org.example.repository.LabWorkRepositoryImpl;
+import org.example.service.LabWorkService;
+import org.example.service.LabWorkServiceImpl;
+import org.example.util.NameUtil;
+
+/**
+ *
+ * Класс отвечающий за жизненный цикл программы
+ *
+ */
 
 public class ProgramController {
     private final CommandController commandController;
     private final StreamController consoleController;
 
 
-    public ProgramController(){
+    public ProgramController() {
         commandController = new CommandController();
         consoleController = ConsoleController.getInstance();
 
         consoleController.print("Программа запущена\nДля получения списка команд напишите: help");
     }
 
-    public void run(){
-        while (consoleController.hasNext()) {
+    public void run() {
+        try {
 
-            String line = consoleController.readNextLine();
+            while (consoleController.hasNext()) {
 
-            if (line.isEmpty()){
-                continue;
+                String line = consoleController.readNextLine();
+
+                if (line.isEmpty()) {
+                    continue;
+                }
+
+                String[] str = line.trim().split("\\s+");
+
+
+                if (str.length == 0) {
+                    continue;
+                }
+
+                if (!commandController.isValidCommand(str[0])) {
+                    consoleController.print(str[0] + ": Имя " + str[0] +
+                            "не распознано как имя командлета, функции, файла сценария или выполняемой программы\n" +
+                            "Проверьте правильность написания имени, после чего повторите попытку.");
+                    continue;
+                }
+
+                String[] args = new String[str.length - 1];
+                System.arraycopy(str, 1, args, 0, str.length - 1);
+
+                for (var to : args) {
+                    System.out.println(to);
+                }
+
+                commandController.executeCommand(str[0], args);
             }
-
-            String[] str = line.trim().split("\\s+");
-
-
-            if (str.length == 0){
-                continue;
-            }
-
-            if (!commandController.isValidCommand(str[0])){
-                consoleController.print(str[0] + ": Имя " + str[0] +
-                        "не распознано как имя командлета, функции, файла сценария или выполняемой программы\n" +
-                        "Проверьте правильность написания имени, после чего повторите попытку.");
-                continue;
-            }
-
-            String[] args = new String[str.length-1];
-            System.arraycopy(str, 1, args, 0, str.length - 1);
-
-            for (var to: args){
-                System.out.println(to);
-            }
-
-            commandController.executeCommand(str[0], args);
+        } catch (Exception e){
+            LabWorkRepository labWorkRepository = LabWorkRepositoryImpl.getInstance(NameUtil.getInstance().getName());
+            labWorkRepository.save();
         }
 
     }

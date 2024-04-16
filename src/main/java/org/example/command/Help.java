@@ -1,13 +1,17 @@
 package org.example.command;
 
 import org.example.controller.ObjectController;
-import org.example.controller.StreamController;
-import org.example.controller.ConsoleController;
 
-public class Help extends Command{
+/**
+ *
+ * Команда возвращающая список всех существующих команд
+ *
+ */
+
+public class Help extends Command {
     private final ObjectController objectController;
 
-    public Help(){
+    public Help() {
         objectController = new ObjectController();
 
         argSize = 0;
@@ -17,7 +21,7 @@ public class Help extends Command{
 
     @Override
     public void execute(String... args) {
-        if (!isSizeCorrect(args.length)){
+        if (!isSizeCorrect(args.length)) {
             objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;

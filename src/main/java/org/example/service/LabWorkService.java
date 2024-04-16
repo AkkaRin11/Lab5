@@ -3,20 +3,36 @@ package org.example.service;
 import org.example.model.LabWork;
 
 import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+
+/**
+ *
+ * Слой-менеждер для разделения логики взаимодействия с данными от команд
+ *
+ */
 
 public interface LabWorkService {
 
     void add(LabWork lb);
+
     void clear();
+
     boolean removeById(int id);
+
     void removeGreater(LabWork lb);
+
     void save();
+
     LinkedHashSet<LabWork> getCollection();
-    void updateById(LabWork labW, int id);
 
     boolean addIfMax(LabWork labWork);
 
     String getCollectionInfo();
+
+    LinkedHashSet<LabWork> getCollectionByContainsName(String nameFilter);
+
+    LinkedHashSet<LabWork> getCollectionByGreaterMinimalPoint(int minimalPoint);
+
+    boolean updateById(LabWork labWork, int id);
+
+    long getSumOfAveragePoint();
 }

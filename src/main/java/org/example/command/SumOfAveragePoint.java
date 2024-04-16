@@ -1,18 +1,20 @@
 package org.example.command;
 
 import org.example.controller.ObjectController;
-import org.example.controller.StreamController;
-import org.example.controller.ConsoleController;
-import org.example.model.LabWork;
 import org.example.service.LabWorkService;
 import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
 
-public class SumOfAveragePoint extends Command{
+/**
+ *
+ * Команда возвращающая сумму average_point
+ *
+ */
+public class SumOfAveragePoint extends Command {
     private final LabWorkService labWorkService;
     private final ObjectController objectController = new ObjectController();
 
-    public SumOfAveragePoint(){
+    public SumOfAveragePoint() {
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
 
@@ -23,18 +25,12 @@ public class SumOfAveragePoint extends Command{
 
     @Override
     public void execute(String... args) {
-        if (!isSizeCorrect(args.length)){
+        if (!isSizeCorrect(args.length)) {
             objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }
-        long sum = 0;
-
-        var collection = labWorkService.getCollection();
-
-        for(LabWork to: collection){
-            sum += to.getAveragePoint();
-        }
+        long sum = labWorkService.getSumOfAveragePoint();
 
         objectController.print("Сумма averagePoint в массиве: " + sum);
     }

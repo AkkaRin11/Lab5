@@ -1,36 +1,35 @@
 package org.example.controller;
 
-import org.example.command.Command;
-import org.example.dto.*;
+import org.example.dto.LabWorkDto;
 import org.example.model.LabWork;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.Scanner;
 
+
+/**
+ *
+ * Реализация StreamController для взаимодействия с файлами
+ *
+ */
 public class FileController implements StreamController {
     private static FileController instance;
-    private final Scanner sc;
+    private Scanner sc;
+    private final ProgramStateController programStateController = ProgramStateController.getInstance();
 
-    private FileController(String fileName){
-        try {
-            sc = new Scanner(new File("src/main/java/org/example/data/" + fileName));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static FileController getInstance(String fileName){
-        if (instance == null){
-            instance = new FileController(fileName);
+    public static FileController getInstance() {
+        if (instance == null) {
+            instance = new FileController();
         }
 
         return instance;
     }
 
     @Override
-    public void print(String ... str){
-        for(String to: str){
+    public void print(String... str) {
+        for (String to : str) {
             System.out.print(to + " ");
         }
         System.out.println();
@@ -61,11 +60,11 @@ public class FileController implements StreamController {
 
     @Override
     public void printLabWorkObjs(LinkedHashSet<LabWork> labWork) {
-        for (LabWork to: labWork){
+        for (LabWork to : labWork) {
             printLabWorkObj(to);
         }
 
-        if (labWork.isEmpty()){
+        if (labWork.isEmpty()) {
             print("Коллекция пуста");
         }
     }
@@ -88,6 +87,16 @@ public class FileController implements StreamController {
     @Override
     public double readDouble(String name) {
         return Double.parseDouble(readNextLine());
+    }
+
+    @Override
+    public void setScanner() {
+        try {
+            sc = new Scanner(new File("src/main/java/org/example/data/" +
+                    programStateController.getFileName())); // пока для удобства
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
