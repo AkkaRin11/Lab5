@@ -1,18 +1,24 @@
 package org.example.command;
 
 import org.example.controller.ObjectController;
-import org.example.controller.StreamController;
-import org.example.controller.ConsoleController;
 import org.example.model.LabWork;
 import org.example.service.LabWorkService;
 import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
 
-public class Update extends Command{
+import static org.example.util.Validation.checkIntNumber;
+
+/**
+ *
+ * Команда обновления элемента по id
+ *
+ */
+
+public class Update extends Command {
     private final LabWorkService labWorkService;
     private final ObjectController objectController;
 
-    public Update(){
+    public Update() {
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
         objectController = new ObjectController();
@@ -24,42 +30,27 @@ public class Update extends Command{
 
     @Override
     public void execute(String... args) {
-        if (!isSizeCorrect(args.length)){
+        if (!isSizeCorrect(args.length)) {
             objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
         }
 
-        if (args[0].matches("^[-+]?\\d+$")){
+        if (checkIntNumber(args[0])) {
 
             int id = Integer.parseInt(args[0]);
-
-            var collection = labWorkService.getCollection();
-
-            boolean flag = false;
-
-            for(LabWork to: collection){
-                if (to.getId() == id){
-                    flag = true;
-                    break;
-                }
-            }
-
-            if (!flag){
-                objectController.print("Элемента с таким id не существует");
-                return;
-            }
-
             LabWork labWork = objectController.getLabWorkObj();
 
-            labWorkService.removeById(id);
-            labWorkService.add(labWork);
+            boolean result = labWorkService.updateById(labWork, id);
 
-            objectController.print("Объект успешно обновлённ");
+            if (result) {
+                objectController.print("Объект успешно обновлённ");
+            } else {
+                objectController.print("Элемента с таким id не существует");
+            }
 
         } else {
             objectController.print("Введённый аргумент не является целым числом");
-            return;
         }
 
     }

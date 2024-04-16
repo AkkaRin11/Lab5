@@ -7,6 +7,12 @@ import org.example.command_support.History;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ *
+ * Класс для управления командами
+ *
+ */
+
 public class CommandController {
     @Getter
     private static Map<String, Command> commands;
@@ -42,14 +48,14 @@ public class CommandController {
 
         Command command = getCommandByName(commandName);
         command.execute(args);
-        history.Add(command);
+        history.add(command);
     }
 
-    public boolean isValidCommand(String input){
+    public boolean isValidCommand(String input) {
         return commands.get(input) != null;
     }
 
-    public static Command getCommandByName(String commandName){
+    public static Command getCommandByName(String commandName) {
         return commands.get(commandName);
     }
 

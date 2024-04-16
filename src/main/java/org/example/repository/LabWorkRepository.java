@@ -3,15 +3,27 @@ package org.example.repository;
 import org.example.model.LabWork;
 
 import java.util.LinkedHashSet;
-import java.util.Set;
+
+/**
+ *
+ * Класс для взаимодейстия со структурой, одной для программы
+ *
+ */
 
 public interface LabWorkRepository {
-    void add(LabWork lb);
+    void add(LabWork labWork);
+
     void clear();
+
     boolean removeById(int id);
-    void removeGreater(LabWork lb);
+
+    void removeGreater(LabWork labWork);
+
     void save();
+
     LinkedHashSet<LabWork> getCollection();
-    void updateById(LabWork labW, int id);
+
+    boolean updateById(LabWork labWork, int id);
+
     String getCollectionInfo();
 }

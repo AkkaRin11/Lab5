@@ -1,17 +1,20 @@
 package org.example.command;
 
 import org.example.controller.ObjectController;
-import org.example.controller.StreamController;
-import org.example.controller.ConsoleController;
 import org.example.service.LabWorkService;
 import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
 
-public class Info extends Command{
+/**
+ *
+ * Команда возвращающая информацию о коллекции
+ *
+ */
+public class Info extends Command {
     private final LabWorkService labWorkService;
     private final ObjectController objectController = new ObjectController();
 
-    public Info(){
+    public Info() {
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
 
@@ -22,7 +25,7 @@ public class Info extends Command{
 
     @Override
     public void execute(String... args) {
-        if (!isSizeCorrect(args.length)){
+        if (!isSizeCorrect(args.length)) {
             objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;

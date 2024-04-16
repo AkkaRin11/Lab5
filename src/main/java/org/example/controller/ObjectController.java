@@ -7,9 +7,18 @@ import org.example.model.LabWork;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static org.example.util.Validation.checkIntNumber;
+
+/**
+ *
+ * Класс-прослойка между выводом объектов и командами
+ *
+ */
+
 public class ObjectController {
     private StreamController streamController;
     private final ProgramStateController programStateController = ProgramStateController.getInstance();
+
 
     public LabWork getLabWorkObj() {
         setStream();
@@ -20,20 +29,20 @@ public class ObjectController {
 
         CoordinatesDto coordinatesDto = new CoordinatesDto(null, null);
 
-        while(coordinatesDto.getX() == null){
+        while (coordinatesDto.getX() == null) {
             double a = streamController.readDouble("x");
 
-            if (a < 365){
+            if (a < 365) {
                 coordinatesDto.setX(a);
             } else {
                 streamController.print("x должен быть вещственным числом меньеше 365");
             }
         }
 
-        while(coordinatesDto.getY() == null){
+        while (coordinatesDto.getY() == null) {
             long a = streamController.readLong("y");
 
-            if (a > -592){
+            if (a > -592) {
                 coordinatesDto.setY(a);
             } else {
                 streamController.print("y может быть только целым числом больше -592");
@@ -43,10 +52,10 @@ public class ObjectController {
         lb.setCoordinates(coordinatesDto);
 
 
-        while(lb.getMinimalPoint() == -1){
+        while (lb.getMinimalPoint() == -1) {
             long a = streamController.readLong("minimal point");
 
-            if (a > 0){
+            if (a > 0) {
                 lb.setMinimalPoint(a);
             } else {
                 streamController.print("minimal point может быть только целым числом больше 0");
@@ -54,10 +63,10 @@ public class ObjectController {
         }
 
 
-        while(lb.getAveragePoint() == null){
+        while (lb.getAveragePoint() == null) {
             long a = streamController.readLong("average point");
 
-            if (a > 0){
+            if (a > 0) {
                 lb.setAveragePoint(a);
             } else {
                 streamController.print("average point может быть только целым числом больше 0");
@@ -79,17 +88,18 @@ public class ObjectController {
             String line = streamController.readNextLine();
             String[] str = line.split("\\s+");
 
-            if (str.length != 3){
+            if (str.length != 3) {
                 streamController.print("Некорректное количество аргументов, ожидается 3, получено " + str.length);
                 continue;
             }
 
             int a = 0;
-            if (str[0].matches("^[+]?\\d+$")){
+            if (checkIntNumber(str[0])) {
 
                 try {
                     a = Integer.parseInt(str[0]);
-                } catch (Exception ignored){}
+                } catch (Exception ignored) {
+                }
 
             } else {
                 streamController.print("year может быть только положительным целым числом");
@@ -97,11 +107,12 @@ public class ObjectController {
             }
 
             int b = 0;
-            if (str[0].matches("^[+]?\\d+$")){
+            if (checkIntNumber(str[0])) {
 
                 try {
                     a = Integer.parseInt(str[0]);
-                } catch (Exception ignored){}
+                } catch (Exception ignored) {
+                }
 
             } else {
                 streamController.print("month может быть только положительным целым числом");
@@ -109,11 +120,12 @@ public class ObjectController {
             }
 
             int c = 0;
-            if (str[0].matches("^[+]?\\d+$")){
+            if (checkIntNumber(str[0])) {
 
                 try {
                     a = Integer.parseInt(str[0]);
-                } catch (Exception ignored){}
+                } catch (Exception ignored) {
+                }
 
             } else {
                 streamController.print("day может быть только положительным целым числом");
@@ -123,9 +135,9 @@ public class ObjectController {
             Date date;
 
             try {
-                Calendar calendar = new GregorianCalendar(a, b-1, c);
+                Calendar calendar = new GregorianCalendar(a, b - 1, c);
                 date = calendar.getTime();
-            } catch (Exception e){
+            } catch (Exception e) {
                 streamController.print("date не валидна");
                 continue;
             }
@@ -152,7 +164,7 @@ public class ObjectController {
         }
     }
 
-    public void print(String ... str){
+    public void print(String... str) {
         setStream();
         streamController.print(str);
     }
@@ -162,15 +174,17 @@ public class ObjectController {
         return streamController.hasNext();
     }
 
-    public void setStream(){
-        if (programStateController.getProgramState() == ProgramState.ReadFromConsole){
+    public void setStream() {
+        if (programStateController.getProgramState() == ProgramState.ReadFromConsole) {
             streamController = ConsoleController.getInstance();
         } else {
-            streamController = FileController.getInstance(programStateController.getFileName());
+            streamController = FileController.getInstance();
+            streamController.setScanner();
         }
     }
 
-    public String readString(){
+    public String readString() {
+        setStream();
         return streamController.readString("");
     }
 

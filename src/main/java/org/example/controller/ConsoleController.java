@@ -1,23 +1,30 @@
 package org.example.controller;
 
-import org.example.command.Command;
-import org.example.dto.*;
+import org.example.dto.LabWorkDto;
 import org.example.model.LabWork;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.Scanner;
+
+import static org.example.util.Validation.checkDouble;
+import static org.example.util.Validation.checkIntNumber;
+
+/**
+ *
+ * Реализация StreamController для взаимодействия с консолью
+ *
+ */
 
 public class ConsoleController implements StreamController {
     private static ConsoleController instance;
     private final Scanner sc;
 
-    private ConsoleController(){
+    private ConsoleController() {
         sc = new Scanner(System.in);
     }
-    public static ConsoleController getInstance(){
-        if (instance == null){
+
+    public static ConsoleController getInstance() {
+        if (instance == null) {
             instance = new ConsoleController();
         }
 
@@ -25,28 +32,28 @@ public class ConsoleController implements StreamController {
     }
 
     @Override
-    public void print(String ... str){
-        for(String to: str){
+    public void print(String... str) {
+        for (String to : str) {
             System.out.print(to + " ");
         }
         System.out.println();
     }
 
     @Override
-    public boolean hasNext(){
+    public boolean hasNext() {
         return sc.hasNext();
     }
 
     @Override
-    public String readNextLine(){
+    public String readNextLine() {
         return sc.nextLine();
     }
 
     @Override
-    public <T extends Enum<T>> T readEnum(Class<T> enumClass){
+    public <T extends Enum<T>> T readEnum(Class<T> enumClass) {
         print("Введите одно из значений ниже");
 
-        for (var to: enumClass.getEnumConstants()){
+        for (var to : enumClass.getEnumConstants()) {
             print("> " + to);
         }
 
@@ -57,7 +64,7 @@ public class ConsoleController implements StreamController {
 
             String line = readNextLine();
 
-            if (line.isEmpty()){
+            if (line.isEmpty()) {
                 print(enumClass.getSimpleName() + " не может быть пустой строкой");
                 continue;
             }
@@ -78,7 +85,7 @@ public class ConsoleController implements StreamController {
     }
 
     @Override
-    public long readLong(String name){
+    public long readLong(String name) {
         Long res = null;
 
         while (res == null) {
@@ -87,18 +94,19 @@ public class ConsoleController implements StreamController {
             String line = readNextLine();
             String[] str = line.split("\\s+");
 
-            if (str.length != 1){
+            if (str.length != 1) {
                 print("Некорректное количество аргументов");
                 continue;
             }
 
-            if (str[0].matches("^[-+]?\\d+$")){
+            if (checkIntNumber(str[0])) {
 
                 long a = 0;
 
                 try {
                     a = Long.parseLong(str[0]);
-                } catch (Exception ignored){}
+                } catch (Exception ignored) {
+                }
 
                 res = a;
             } else {
@@ -110,7 +118,7 @@ public class ConsoleController implements StreamController {
     }
 
     @Override
-    public double readDouble(String name){
+    public double readDouble(String name) {
         Double res = null;
 
         while (res == null) {
@@ -119,18 +127,19 @@ public class ConsoleController implements StreamController {
             String line = readNextLine();
             String[] str = line.split("\\s+");
 
-            if (str.length != 1){
+            if (str.length != 1) {
                 print("Некорректное количество аргументов");
                 continue;
             }
 
-            if (str[0].matches("^[0-9]*[.][0-9]+$")){
+            if (checkDouble(str[0])) {
 
                 double a = 0;
 
                 try {
                     a = Double.parseDouble(str[0]);
-                } catch (Exception ignored){}
+                } catch (Exception ignored) {
+                }
 
                 res = a;
             } else {
@@ -139,6 +148,10 @@ public class ConsoleController implements StreamController {
         }
 
         return res;
+    }
+
+    @Override
+    public void setScanner() {
     }
 
     @Override
@@ -164,24 +177,31 @@ public class ConsoleController implements StreamController {
     @Override
     public void printLabWorkObj(LabWork labWork) {
         LabWorkDto labWorkDto = LabWorkDto.toDto(labWork);
-
-        print(labWorkDto.getId().toString(), labWorkDto.getName(), labWorkDto.getCoordinates().getX().toString(),
-                labWorkDto.getCoordinates().getY().toString(), labWorkDto.getCreationDate().toString(),
-                "" + labWorkDto.getMinimalPoint(), labWorkDto.getAveragePoint().toString(),
-                labWorkDto.getDifficulty().name(), labWorkDto.getAuthor().getName(),
-                labWorkDto.getAuthor().getBirthday().toString(), "" + labWorkDto.getAuthor().getHeight(),
-                labWorkDto.getAuthor().getHairColor().name(), labWorkDto.getAuthor().getNationality().name());
+        print("-------------------------------------------------------------------------------------");
+        print(labWorkDto.getId().toString(), "|",
+                labWorkDto.getName(), "|",
+                labWorkDto.getCoordinates().getX().toString(), "|",
+                labWorkDto.getCoordinates().getY().toString(), "|",
+                labWorkDto.getCreationDate().toString(), "|",
+                "" + labWorkDto.getMinimalPoint(), "|",
+                labWorkDto.getAveragePoint().toString(), "|",
+                labWorkDto.getDifficulty().name(), "|",
+                labWorkDto.getAuthor().getName(), "|",
+                labWorkDto.getAuthor().getBirthday().toString(), "|",
+                "" + labWorkDto.getAuthor().getHeight(), "|",
+                labWorkDto.getAuthor().getHairColor().name(), "|",
+                labWorkDto.getAuthor().getNationality().name());
 
     }
 
 
     @Override
     public void printLabWorkObjs(LinkedHashSet<LabWork> labWork) {
-        for (LabWork to: labWork){
+        for (LabWork to : labWork) {
             printLabWorkObj(to);
         }
 
-        if (labWork.isEmpty()){
+        if (labWork.isEmpty()) {
             print("Коллекция пуста");
         }
     }

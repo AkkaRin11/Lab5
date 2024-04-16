@@ -1,14 +1,14 @@
 package org.example.repository;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
-import org.example.model.*;
+import org.example.model.LabWork;
 
-import java.io.*;
-import java.util.*;
+import java.util.LinkedHashSet;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+/**
+ *
+ * Реализация LabWorkRepository
+ *
+ */
 
 public class LabWorkRepositoryImpl implements LabWorkRepository {
     private static LabWorkRepositoryImpl instance;
@@ -17,22 +17,22 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
 
     private final Parser parser;
 
-    public static LabWorkRepositoryImpl getInstance(String fileName){
-        if (instance == null){
+    public static LabWorkRepositoryImpl getInstance(String fileName) {
+        if (instance == null) {
             instance = new LabWorkRepositoryImpl(fileName);
         }
 
         return instance;
     }
 
-    private LabWorkRepositoryImpl(String fileName){
+    private LabWorkRepositoryImpl(String fileName) {
         parser = Parser.getInstance(fileName);
         labWorks = parser.read(fileName);
     }
 
     @Override
-    public void add(LabWork lb) {
-        labWorks.add(lb);
+    public void add(LabWork labWork) {
+        labWorks.add(labWork);
     }
 
     @Override
@@ -42,34 +42,34 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
 
     @Override
     public boolean removeById(int id) {
-        LabWork lb = null;
+        LabWork labWork = null;
 
         boolean flag = false;
 
-        for (LabWork to: labWorks){
-            if (to.getId() == id){
-                lb = to;
+        for (LabWork to : labWorks) {
+            if (to.getId() == id) {
+                labWork = to;
                 flag = true;
                 break;
             }
         }
-        
-        labWorks.remove(lb);
+
+        labWorks.remove(labWork);
 
         return flag;
     }
 
     @Override
-    public void removeGreater(LabWork lb) {
+    public void removeGreater(LabWork labWork) {
         LinkedHashSet<LabWork> lh = new LinkedHashSet<>();
 
-        for (LabWork to: labWorks){
-            if (to.getMinimalPoint() > lb.getMinimalPoint()){
+        for (LabWork to : labWorks) {
+            if (to.getMinimalPoint() > labWork.getMinimalPoint()) {
                 lh.add(to);
             }
         }
 
-        for (LabWork to: lh){
+        for (LabWork to : lh) {
             labWorks.remove(to);
         }
     }
@@ -85,18 +85,22 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
     }
 
     @Override
-    public void updateById(LabWork labW, int id) {
+    public boolean updateById(LabWork labWork, int id) {
         LabWork lb = null;
+        boolean flag = false;
 
-        for (LabWork to: labWorks){
-            if (to.getId() == id){
+        for (LabWork to : labWorks) {
+            if (to.getId() == id) {
+                flag = true;
                 lb = to;
                 break;
             }
         }
 
         labWorks.remove(lb);
-        labWorks.add(labW);
+        labWorks.add(labWork);
+
+        return flag;
     }
 
     @Override

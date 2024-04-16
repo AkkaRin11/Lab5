@@ -5,14 +5,17 @@ import org.example.service.LabWorkService;
 import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
 
-public class History extends Command{
-    private final LabWorkService labWorkService;
+/**
+ *
+ * Команда возвращающая историю выполнения команд
+ *
+ */
+
+public class History extends Command {
     private final org.example.command_support.History history;
     private final ObjectController objectController = new ObjectController();
 
-    public History(){
-        NameUtil nameUtil = NameUtil.getInstance();
-        labWorkService = new LabWorkServiceImpl(nameUtil.getName());
+    public History() {
         history = org.example.command_support.History.getInstance();
 
         argSize = 0;
@@ -22,7 +25,7 @@ public class History extends Command{
 
     @Override
     public void execute(String... args) {
-        if (!isSizeCorrect(args.length)){
+        if (!isSizeCorrect(args.length)) {
             objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
@@ -30,7 +33,7 @@ public class History extends Command{
 
         var list = history.getCommandHistory();
 
-        for(Command to: list){
+        for (Command to : list) {
             objectController.print(to.name);
         }
     }

@@ -1,18 +1,21 @@
 package org.example.command;
 
 import org.example.controller.ObjectController;
-import org.example.controller.StreamController;
-import org.example.controller.ConsoleController;
 import org.example.model.LabWork;
 import org.example.service.LabWorkService;
 import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
 
-public class AddIfMax extends Command{
+/**
+ *
+ * Команда добавляющая элемент если он наибольшй
+ *
+ */
+public class AddIfMax extends Command {
     private final LabWorkService labWorkService;
     private final ObjectController objectController;
 
-    public AddIfMax(){
+    public AddIfMax() {
         NameUtil nameUtil = NameUtil.getInstance();
         labWorkService = new LabWorkServiceImpl(nameUtil.getName());
         objectController = new ObjectController();
@@ -24,7 +27,7 @@ public class AddIfMax extends Command{
 
     @Override
     public void execute(String... args) {
-        if (!isSizeCorrect(args.length)){
+        if (!isSizeCorrect(args.length)) {
             objectController.print("Неверное количество аргументов, ожидалось: " + argSize +
                     ", получено: " + args.length);
             return;
@@ -34,7 +37,7 @@ public class AddIfMax extends Command{
 
         boolean res = labWorkService.addIfMax(labWork);
 
-        if (res){
+        if (res) {
             objectController.print("Элемент наибольший, добавлен");
         } else {
             objectController.print("Элемент не наибольший, не добавлен");

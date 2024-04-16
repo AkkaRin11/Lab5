@@ -2,9 +2,7 @@ package org.example.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.model.LabWork;
 import org.example.model.Person;
 
 import java.util.Date;
@@ -19,7 +17,7 @@ public class PersonDto {
     private ColorDto hairColor;
     private CountryDto nationality;
 
-    public static PersonDto toDto(Person person){
+    public static PersonDto toDto(Person person) {
         return new PersonDto(
                 person.getName(),
                 person.getBirthday(),
@@ -30,7 +28,7 @@ public class PersonDto {
 
     }
 
-    public static Person toDomainObject(PersonDto personDto){
+    public static Person toDomainObject(PersonDto personDto) {
         return new Person(
                 personDto.getName(),
                 personDto.getBirthday(),

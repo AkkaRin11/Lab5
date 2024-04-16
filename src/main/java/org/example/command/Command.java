@@ -1,13 +1,18 @@
 package org.example.command;
 
-public abstract class Command implements Describable, Executable{
+/**
+ *
+ * Базовый класс команды
+ *
+ */
+public abstract class Command implements Describable, Executable {
     protected int argSize;
     protected String name;
     protected String description;
 
-    public boolean isSizeCorrect(int size){
+    public boolean isSizeCorrect(int size) {
 
-        if (size != argSize){
+        if (size != argSize) {
             return false;
         }
 
