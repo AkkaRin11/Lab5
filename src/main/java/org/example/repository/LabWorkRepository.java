@@ -17,7 +17,7 @@ public interface LabWorkRepository {
 
     boolean removeById(int id);
 
-    void removeGreater(LabWork labWork);
+    boolean removeGreater(LabWork labWork);
 
     void save();
 

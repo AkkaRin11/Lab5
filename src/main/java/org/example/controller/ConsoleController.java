@@ -178,19 +178,7 @@ public class ConsoleController implements StreamController {
     public void printLabWorkObj(LabWork labWork) {
         LabWorkDto labWorkDto = LabWorkDto.toDto(labWork);
         print("-------------------------------------------------------------------------------------");
-        print(labWorkDto.getId().toString(), "|",
-                labWorkDto.getName(), "|",
-                labWorkDto.getCoordinates().getX().toString(), "|",
-                labWorkDto.getCoordinates().getY().toString(), "|",
-                labWorkDto.getCreationDate().toString(), "|",
-                "" + labWorkDto.getMinimalPoint(), "|",
-                labWorkDto.getAveragePoint().toString(), "|",
-                labWorkDto.getDifficulty().name(), "|",
-                labWorkDto.getAuthor().getName(), "|",
-                labWorkDto.getAuthor().getBirthday().toString(), "|",
-                "" + labWorkDto.getAuthor().getHeight(), "|",
-                labWorkDto.getAuthor().getHairColor().name(), "|",
-                labWorkDto.getAuthor().getNationality().name());
+        print(labWorkDto.toString());
 
     }
 

@@ -47,6 +47,23 @@ public class LabWorkDto {
                 PersonDto.toDomainObject(labWorkDto.getAuthor())
         );
     }
+
+    @Override
+    public String toString() {
+        return getId().toString() + "|" +
+                getName()+ "|"+
+                getCoordinates().getX().toString()+ "|"+
+                getCoordinates().getY().toString()+ "|"+
+                getCreationDate().toString()+ "|"+
+                "" + getMinimalPoint()+ "|"+
+                getAveragePoint().toString()+ "|"+
+                getDifficulty().name()+ "|"+
+                getAuthor().getName()+ "|"+
+                getAuthor().getBirthday().toString()+ "|"+
+                "" + getAuthor().getHeight()+ "|"+
+                getAuthor().getHairColor().name()+ "|"+
+                getAuthor().getNationality().name();
+    }
 }
 
 

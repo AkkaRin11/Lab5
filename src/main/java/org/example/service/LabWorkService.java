@@ -18,7 +18,7 @@ public interface LabWorkService {
 
     boolean removeById(int id);
 
-    void removeGreater(LabWork lb);
+    boolean removeGreater(LabWork lb);
 
     void save();
 

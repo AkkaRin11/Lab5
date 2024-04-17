@@ -36,8 +36,8 @@ public class LabWorkServiceImpl implements LabWorkService {
     }
 
     @Override
-    public void removeGreater(LabWork lb) {
-        labWorkRepository.removeGreater(lb);
+    public boolean removeGreater(LabWork lb) {
+        return labWorkRepository.removeGreater(lb);
     }
 
     @Override
