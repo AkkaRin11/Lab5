@@ -1,6 +1,8 @@
 package org.example;
 
 import org.example.controller.ProgramController;
+import org.example.repository.LabWorkRepository;
+import org.example.repository.LabWorkRepositoryImpl;
 import org.example.util.NameUtil;
 
 import java.io.File;

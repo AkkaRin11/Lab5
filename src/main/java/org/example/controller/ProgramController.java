@@ -2,11 +2,10 @@ package org.example.controller;
 
 import org.example.repository.LabWorkRepository;
 import org.example.repository.LabWorkRepositoryImpl;
-import org.example.service.LabWorkService;
-import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
-import sun.misc.Signal;
-import sun.misc.SignalHandler;
+
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  *
@@ -22,40 +21,32 @@ public class ProgramController {
         commandController = new CommandController();
         consoleController = ConsoleController.getInstance();
 
-
         consoleController.print("Программа запущена\nДля получения списка команд напишите: help");
-    }
-
-    private void saveStateAndExit() {
-        try {
-            LabWorkRepository labWorkRepository = LabWorkRepositoryImpl.getInstance(NameUtil.getInstance().getName());
-            labWorkRepository.save();
-            consoleController.print("Данные сохранены. Завершение работы программы.");
-        } finally {
-            System.exit(0);
-        }
     }
 
     public void run() {
         Thread thread = new Thread(() -> {
+
             System.out.println("\nЗавершение работы по другой причине");
             try {
-                saveStateAndExit();
+                LabWorkRepository labWorkRepository = LabWorkRepositoryImpl.getInstance(NameUtil.getInstance().getName());
+                labWorkRepository.save();
+                Thread.currentThread().interrupt();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
 
-        thread.setDaemon(true);
-
+        thread.setDaemon(true); // не работает
         Runtime.getRuntime().addShutdownHook(thread);
-
 
         try {
             while (consoleController.hasNext()) {
                 String line = consoleController.readNextLine();
                 if (line == null) { // Check for EOF (Ctrl+D)
-                    saveStateAndExit();
+                    LabWorkRepository labWorkRepository = LabWorkRepositoryImpl.getInstance(NameUtil.getInstance().getName());
+                    labWorkRepository.save();
+                    System.exit(1);
                 }
 
                 if (line.isEmpty()) {
@@ -81,7 +72,7 @@ public class ProgramController {
             }
         } catch (Exception e) {
             consoleController.print("Произошла ошибка: " + e.getMessage());
-            saveStateAndExit();
+            System.exit(1);
         }
     }
 }
