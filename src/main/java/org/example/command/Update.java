@@ -39,6 +39,12 @@ public class Update extends Command {
         if (checkIntNumber(args[0])) {
 
             int id = Integer.parseInt(args[0]);
+
+            if(!labWorkService.isExistById(id)){
+                objectController.print("Элемента с таким id не существует");
+                return;
+            }
+
             LabWork labWork = objectController.getLabWorkObj();
 
             boolean result = labWorkService.updateById(labWork, id);

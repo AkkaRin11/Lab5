@@ -92,11 +92,8 @@ public class FileController implements StreamController {
     @Override
     public void setScanner() {
         try {
-            sc = new Scanner(new File("src/main/java/org/example/data/" +
-                    programStateController.getFileName())); // пока для удобства
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+            sc = new Scanner(new File(programStateController.getFileName()));
+        } catch (FileNotFoundException e) {}
     }
 }
 

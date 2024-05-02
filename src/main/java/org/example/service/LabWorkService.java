@@ -35,4 +35,6 @@ public interface LabWorkService {
     boolean updateById(LabWork labWork, int id);
 
     long getSumOfAveragePoint();
+
+    boolean isExistById(int id);
 }

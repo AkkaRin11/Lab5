@@ -121,4 +121,8 @@ public class LabWorkServiceImpl implements LabWorkService {
         return sum;
     }
 
+    public boolean isExistById(int id){
+        return labWorkRepository.isExistById(id);
+    }
+
 }

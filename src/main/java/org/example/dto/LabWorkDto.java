@@ -50,19 +50,19 @@ public class LabWorkDto {
 
     @Override
     public String toString() {
-        return getId().toString() + "|" +
-                getName()+ "|"+
-                getCoordinates().getX().toString()+ "|"+
-                getCoordinates().getY().toString()+ "|"+
-                getCreationDate().toString()+ "|"+
-                "" + getMinimalPoint()+ "|"+
-                getAveragePoint().toString()+ "|"+
-                getDifficulty().name()+ "|"+
-                getAuthor().getName()+ "|"+
-                getAuthor().getBirthday().toString()+ "|"+
-                "" + getAuthor().getHeight()+ "|"+
-                getAuthor().getHairColor().name()+ "|"+
-                getAuthor().getNationality().name();
+        return "\n" + "Id: " + getId().toString() +
+                "\n" + "Name: " + getName()+
+                "\n" + "Coordinates X: " + getCoordinates().getX().toString()+
+                "\n" + "Coordinates Y: " + getCoordinates().getY().toString()+
+                "\n" + "CreationDate: " + getCreationDate().toString()+
+                "\n" + "MinimalPoint: " + getMinimalPoint()+
+                "\n" + "AveragePoint: " + getAveragePoint().toString()+
+                "\n" + "Difficulty: " + getDifficulty().name()+
+                "\n" + "Author Name: " + getAuthor().getName()+
+                "\n" + "Author Birthday: " + getAuthor().getBirthday().toString()+
+                "\n" + "Author Height: " + getAuthor().getHeight()+
+                "\n" + "Author HairColor: " + getAuthor().getHairColor().name()+
+                "\n" + "Author Nationality: " + getAuthor().getNationality().name();
     }
 }
 

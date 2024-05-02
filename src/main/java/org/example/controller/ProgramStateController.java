@@ -34,7 +34,7 @@ public class ProgramStateController {
         File file;
 
         try {
-            file = new File("src/main/java/org/example/data/" + fileName);
+            file = new File(fileName);
         } catch (Exception e) {
             System.out.println("Файл не существет, проверьте правильность имени и попробуйте ещё");
             return false;

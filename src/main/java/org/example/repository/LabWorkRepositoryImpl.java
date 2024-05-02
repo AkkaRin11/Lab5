@@ -103,6 +103,7 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
         }
 
         labWorks.remove(lb);
+        labWork.setId(id);
         labWorks.add(labWork);
 
         return flag;
@@ -111,6 +112,19 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
     @Override
     public String getCollectionInfo() {
         return "LinkedHashSet, size: " + labWorks.size();
+    }
+
+    public boolean isExistById(int id){
+        boolean flag = false;
+
+        for (LabWork to : labWorks) {
+            if (to.getId() == id) {
+                flag = true;
+                break;
+            }
+        }
+
+        return flag;
     }
 
 }

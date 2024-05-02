@@ -26,4 +26,6 @@ public interface LabWorkRepository {
     boolean updateById(LabWork labWork, int id);
 
     String getCollectionInfo();
+
+    boolean isExistById(int id);
 }
