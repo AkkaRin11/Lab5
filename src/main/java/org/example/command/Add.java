@@ -40,6 +40,7 @@ public class Add extends Command {
         labWorkService.add(lb);
 
         objectController.print("Коллекция успешно добавлена");
+
     }
 
     @Override

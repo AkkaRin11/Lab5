@@ -22,17 +22,8 @@ public class ProgramController {
         commandController = new CommandController();
         consoleController = ConsoleController.getInstance();
 
+
         consoleController.print("Программа запущена\nДля получения списка команд напишите: help");
-        setupSignalHandlers();
-    }
-
-    private void setupSignalHandlers() {
-        SignalHandler handler = sig -> {
-            saveStateAndExit();
-        };
-
-        Signal.handle(new Signal("INT"), handler);  // Handle Ctrl+C
-        // Since there is no specific signal for Ctrl+D, it will be handled in the normal input loop.
     }
 
     private void saveStateAndExit() {
@@ -46,6 +37,20 @@ public class ProgramController {
     }
 
     public void run() {
+        Thread thread = new Thread(() -> {
+            System.out.println("\nЗавершение работы по другой причине");
+            try {
+                saveStateAndExit();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        thread.setDaemon(true);
+
+        Runtime.getRuntime().addShutdownHook(thread);
+
+
         try {
             while (consoleController.hasNext()) {
                 String line = consoleController.readNextLine();
@@ -66,6 +71,7 @@ public class ProgramController {
                     consoleController.print(str[0] + ": Имя " + str[0] +
                             " не распознано как имя командлета, функции, файла сценария или выполняемой программы\n" +
                             "Проверьте правильность написания имени, после чего повторите попытку.");
+                    System.out.print("> ");
                     continue;
                 }
 

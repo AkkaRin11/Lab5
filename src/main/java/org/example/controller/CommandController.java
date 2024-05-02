@@ -48,6 +48,7 @@ public class CommandController {
 
         Command command = getCommandByName(commandName);
         command.execute(args);
+        System.out.print("> ");
         history.add(command);
     }
 
