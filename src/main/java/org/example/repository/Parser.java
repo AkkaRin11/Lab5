@@ -58,7 +58,24 @@ public class Parser {
 
 
         } catch (FileNotFoundException | JsonProcessingException e) {
-            throw new RuntimeException(e);
+
+            System.out.println("Файл не существует или к нему нету доступа, создаётся пустая коллекция");
+
+            try {
+                File file = new File("(1)" + fileName);
+                file.createNewFile();
+
+                FileWriter writer = new FileWriter("(1)" + fileName, false);
+                writer.write("[]");
+                writer.flush();
+
+                labWorks = new LinkedHashSet<>();
+
+                fileName = "(1)" + fileName;
+
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
         return labWorks;
