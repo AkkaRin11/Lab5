@@ -18,7 +18,7 @@ public interface LabWorkService {
 
     boolean removeById(int id);
 
-    void removeGreater(LabWork lb);
+    boolean removeGreater(LabWork lb);
 
     void save();
 
@@ -35,4 +35,6 @@ public interface LabWorkService {
     boolean updateById(LabWork labWork, int id);
 
     long getSumOfAveragePoint();
+
+    boolean isExistById(int id);
 }

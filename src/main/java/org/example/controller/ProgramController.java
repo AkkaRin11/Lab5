@@ -5,6 +5,7 @@ import org.example.repository.LabWorkRepositoryImpl;
 import org.example.service.LabWorkService;
 import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
+import sun.misc.Signal;
 
 /**
  *
@@ -29,6 +30,7 @@ public class ProgramController {
 
             while (consoleController.hasNext()) {
 
+
                 String line = consoleController.readNextLine();
 
                 if (line.isEmpty()) {
@@ -51,10 +53,6 @@ public class ProgramController {
 
                 String[] args = new String[str.length - 1];
                 System.arraycopy(str, 1, args, 0, str.length - 1);
-
-                for (var to : args) {
-                    System.out.println(to);
-                }
 
                 commandController.executeCommand(str[0], args);
             }

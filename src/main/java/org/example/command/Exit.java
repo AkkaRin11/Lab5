@@ -12,13 +12,9 @@ import org.example.util.NameUtil;
  */
 
 public class Exit extends Command {
-    private final LabWorkService labWorkService;
     private final ObjectController objectController = new ObjectController();
 
     public Exit() {
-        NameUtil nameUtil = NameUtil.getInstance();
-        labWorkService = new LabWorkServiceImpl(nameUtil.getName());
-
         argSize = 0;
         name = "exit";
         description = "Завершает выполнение программы";

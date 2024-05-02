@@ -17,7 +17,7 @@ public interface LabWorkRepository {
 
     boolean removeById(int id);
 
-    void removeGreater(LabWork labWork);
+    boolean removeGreater(LabWork labWork);
 
     void save();
 
@@ -26,4 +26,6 @@ public interface LabWorkRepository {
     boolean updateById(LabWork labWork, int id);
 
     String getCollectionInfo();
+
+    boolean isExistById(int id);
 }

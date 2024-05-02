@@ -36,9 +36,14 @@ public class RemoveGreater extends Command {
 
         LabWork labWork = objectController.getLabWorkObj();
 
-        labWorkService.removeGreater(labWork);
+        boolean flag = labWorkService.removeGreater(labWork);
 
-        objectController.print("Подходящие по условию объекты были удалены");
+        if (flag){
+            objectController.print("Подходящие по условию объекты были удалены");
+        } else {
+            objectController.print("Подходящие по условию объекты не были найдены");
+        }
+
     }
 
     @Override

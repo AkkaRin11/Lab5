@@ -41,7 +41,7 @@ public class ExecuteScript extends Command {
         }
 
         if (!programStateController.setFileName(args[0])) {
-            objectController.print("Файл с таким именем не найден или у нему нету доступа");
+//            objectController.print("Файл с таким именем не найден или у нему нету доступа");
         }
 
         if (history.isScriptWorking(args[0])) {
@@ -54,10 +54,9 @@ public class ExecuteScript extends Command {
 
         Scanner sc;
         try {
-            sc = new Scanner(new File("src/main/java/org/example/data/" +
-                    programStateController.getFileName()));
+            sc = new Scanner(new File(programStateController.getFileName()));
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            return;
         }
 
         while (sc.hasNext()) {

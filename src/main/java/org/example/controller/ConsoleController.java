@@ -53,14 +53,17 @@ public class ConsoleController implements StreamController {
     public <T extends Enum<T>> T readEnum(Class<T> enumClass) {
         print("Введите одно из значений ниже");
 
+        int it = 1;
+
         for (var to : enumClass.getEnumConstants()) {
-            print("> " + to);
+            print("> " + it + " - " + to);
+            it++;
         }
 
         T en = null;
 
         while (en == null) {
-            System.out.print(enumClass.getSimpleName() + ": ");
+            print(enumClass.getSimpleName() + "(введите номер константы или её название): ");
 
             String line = readNextLine();
 
@@ -72,7 +75,21 @@ public class ConsoleController implements StreamController {
             T a;
 
             try {
-                a = T.valueOf(enumClass, line);
+
+                if (checkIntNumber(line)){
+                     int enumNumber = Integer.parseInt(line);
+
+                     if (enumNumber > 0 && enumNumber <= enumClass.getEnumConstants().length){
+                        a = enumClass.getEnumConstants()[enumNumber-1];
+                     } else {
+                         print("Такого значения для " + enumClass.getSimpleName() + " не существует");
+                         continue;
+                     }
+
+                } else {
+                    a = T.valueOf(enumClass, line.toUpperCase());
+                }
+
             } catch (Exception e) {
                 print("Такого значения для " + enumClass.getSimpleName() + " не существует");
                 continue;
@@ -89,7 +106,7 @@ public class ConsoleController implements StreamController {
         Long res = null;
 
         while (res == null) {
-            print(name + ": ");
+            print(name + "(введите целое число): ");
 
             String line = readNextLine();
             String[] str = line.split("\\s+");
@@ -122,7 +139,7 @@ public class ConsoleController implements StreamController {
         Double res = null;
 
         while (res == null) {
-            print(name + ": ");
+            print(name + "(введиет вещественное число): ");
 
             String line = readNextLine();
             String[] str = line.split("\\s+");
@@ -132,7 +149,7 @@ public class ConsoleController implements StreamController {
                 continue;
             }
 
-            if (checkDouble(str[0])) {
+            if (checkDouble(str[0]) || checkIntNumber(str[0])) {
 
                 double a = 0;
 
@@ -159,7 +176,7 @@ public class ConsoleController implements StreamController {
         String str = "";
 
         while (str.isEmpty()) {
-            print(name + ": ");
+            print(name + "(Введите строку): ");
 
             String line = readNextLine();
 
@@ -177,20 +194,7 @@ public class ConsoleController implements StreamController {
     @Override
     public void printLabWorkObj(LabWork labWork) {
         LabWorkDto labWorkDto = LabWorkDto.toDto(labWork);
-        print("-------------------------------------------------------------------------------------");
-        print(labWorkDto.getId().toString(), "|",
-                labWorkDto.getName(), "|",
-                labWorkDto.getCoordinates().getX().toString(), "|",
-                labWorkDto.getCoordinates().getY().toString(), "|",
-                labWorkDto.getCreationDate().toString(), "|",
-                "" + labWorkDto.getMinimalPoint(), "|",
-                labWorkDto.getAveragePoint().toString(), "|",
-                labWorkDto.getDifficulty().name(), "|",
-                labWorkDto.getAuthor().getName(), "|",
-                labWorkDto.getAuthor().getBirthday().toString(), "|",
-                "" + labWorkDto.getAuthor().getHeight(), "|",
-                labWorkDto.getAuthor().getHairColor().name(), "|",
-                labWorkDto.getAuthor().getNationality().name());
+        print(labWorkDto.toString());
 
     }
 

@@ -60,8 +60,10 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
     }
 
     @Override
-    public void removeGreater(LabWork labWork) {
+    public boolean removeGreater(LabWork labWork) {
         LinkedHashSet<LabWork> lh = new LinkedHashSet<>();
+
+        boolean flag = false;
 
         for (LabWork to : labWorks) {
             if (to.getMinimalPoint() > labWork.getMinimalPoint()) {
@@ -71,7 +73,10 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
 
         for (LabWork to : lh) {
             labWorks.remove(to);
+            flag = true;
         }
+
+        return flag;
     }
 
     @Override
@@ -98,6 +103,7 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
         }
 
         labWorks.remove(lb);
+        labWork.setId(id);
         labWorks.add(labWork);
 
         return flag;
@@ -106,6 +112,19 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
     @Override
     public String getCollectionInfo() {
         return "LinkedHashSet, size: " + labWorks.size();
+    }
+
+    public boolean isExistById(int id){
+        boolean flag = false;
+
+        for (LabWork to : labWorks) {
+            if (to.getId() == id) {
+                flag = true;
+                break;
+            }
+        }
+
+        return flag;
     }
 
 }
