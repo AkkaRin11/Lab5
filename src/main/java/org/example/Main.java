@@ -31,7 +31,6 @@ public class Main {
         if (file.exists()) {
             fileName = args[0];
         } else {
-//            System.out.println("Файл не существует, проверьте правильность имени и попробуйте ещё");
 
             System.out.println("Файл не существует или к нему нету доступа, создаётся пустая коллекция");
 
