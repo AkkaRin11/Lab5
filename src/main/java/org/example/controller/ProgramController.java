@@ -2,11 +2,10 @@ package org.example.controller;
 
 import org.example.repository.LabWorkRepository;
 import org.example.repository.LabWorkRepositoryImpl;
-import org.example.service.LabWorkService;
-import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
-import sun.misc.Signal;
-import sun.misc.SignalHandler;
+
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  *
@@ -23,34 +22,32 @@ public class ProgramController {
         consoleController = ConsoleController.getInstance();
 
         consoleController.print("Программа запущена\nДля получения списка команд напишите: help");
-        setupSignalHandlers();
-    }
-
-    private void setupSignalHandlers() {
-        SignalHandler handler = sig -> {
-            saveStateAndExit();
-        };
-
-        Signal.handle(new Signal("INT"), handler);  // Handle Ctrl+C
-        // Since there is no specific signal for Ctrl+D, it will be handled in the normal input loop.
-    }
-
-    private void saveStateAndExit() {
-        try {
-            LabWorkRepository labWorkRepository = LabWorkRepositoryImpl.getInstance(NameUtil.getInstance().getName());
-            labWorkRepository.save();
-            consoleController.print("Данные сохранены. Завершение работы программы.");
-        } finally {
-            System.exit(0);
-        }
+        System.out.print("> ");
     }
 
     public void run() {
+        Thread thread = new Thread(() -> {
+
+            System.out.println("\nЗавершение работы по другой причине");
+            try {
+                LabWorkRepository labWorkRepository = LabWorkRepositoryImpl.getInstance(NameUtil.getInstance().getName());
+                labWorkRepository.save();
+                Thread.currentThread().interrupt();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        thread.setDaemon(true);
+        Runtime.getRuntime().addShutdownHook(thread);
+
         try {
             while (consoleController.hasNext()) {
                 String line = consoleController.readNextLine();
                 if (line == null) { // Check for EOF (Ctrl+D)
-                    saveStateAndExit();
+                    LabWorkRepository labWorkRepository = LabWorkRepositoryImpl.getInstance(NameUtil.getInstance().getName());
+                    labWorkRepository.save();
+                    System.exit(1);
                 }
 
                 if (line.isEmpty()) {
@@ -62,10 +59,11 @@ public class ProgramController {
                     continue;
                 }
 
-                if (!commandController.isValidCommand(str[0])) {
+                if (!CommandController.isValidCommand(str[0])) {
                     consoleController.print(str[0] + ": Имя " + str[0] +
                             " не распознано как имя командлета, функции, файла сценария или выполняемой программы\n" +
                             "Проверьте правильность написания имени, после чего повторите попытку.");
+                    System.out.print("> ");
                     continue;
                 }
 
@@ -75,7 +73,7 @@ public class ProgramController {
             }
         } catch (Exception e) {
             consoleController.print("Произошла ошибка: " + e.getMessage());
-            saveStateAndExit();
+            System.exit(1);
         }
     }
 }

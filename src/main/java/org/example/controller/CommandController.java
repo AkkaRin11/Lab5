@@ -48,10 +48,11 @@ public class CommandController {
 
         Command command = getCommandByName(commandName);
         command.execute(args);
+        System.out.print("> ");
         history.add(command);
     }
 
-    public boolean isValidCommand(String input) {
+    public static boolean isValidCommand(String input) {
         return commands.get(input) != null;
     }
 

@@ -80,8 +80,8 @@ public class LabWorkRepositoryImpl implements LabWorkRepository {
     }
 
     @Override
-    public void save() {
-        parser.save(labWorks);
+    public boolean save() {
+        return parser.save(labWorks);
     }
 
     @Override

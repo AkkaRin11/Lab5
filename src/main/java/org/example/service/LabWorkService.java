@@ -20,7 +20,7 @@ public interface LabWorkService {
 
     boolean removeGreater(LabWork lb);
 
-    void save();
+    boolean save();
 
     LinkedHashSet<LabWork> getCollection();
 

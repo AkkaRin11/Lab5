@@ -40,15 +40,7 @@ public class ExecuteScript extends Command {
             return;
         }
 
-        if (!programStateController.setFileName(args[0])) {
-//            objectController.print("Файл с таким именем не найден или у нему нету доступа");
-        }
-
-        if (history.isScriptWorking(args[0])) {
-            return;
-        } else {
-            history.addScript(args[0]);
-        }
+        programStateController.setFileName(args[0]);
 
         programStateController.setProgramState(ProgramState.ReadFromFile);
 
@@ -59,13 +51,25 @@ public class ExecuteScript extends Command {
             return;
         }
 
+        if (history.isScriptWorking(args[0])) {
+            return;
+        } else {
+            history.addScript(args[0]);
+        }
+
         while (sc.hasNext()) {
+            programStateController.setScanner(sc);
+
             String[] str = sc.nextLine().replaceAll("\n", "").split("\\s+");
 
             String[] ar = new String[str.length - 1];
             System.arraycopy(str, 1, ar, 0, str.length - 1);
 
-            CommandController.getCommandByName(str[0]).execute(ar);
+
+            if (CommandController.isValidCommand(str[0])){
+                CommandController.getCommandByName(str[0]).execute(ar);
+            }
+
         }
 
         String scriptName = history.getPreviousScript();
@@ -75,6 +79,7 @@ public class ExecuteScript extends Command {
         } else {
             programStateController.setFileName(scriptName);
         }
+
     }
 
     @Override
