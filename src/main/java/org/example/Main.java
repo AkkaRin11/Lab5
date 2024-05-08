@@ -3,6 +3,7 @@ package org.example;
 import org.example.command.Add;
 import org.example.command.Command;
 import org.example.controller.ProgramController;
+import org.example.controller.ProgramStateController;
 import org.example.repository.LabWorkRepository;
 import org.example.repository.LabWorkRepositoryImpl;
 import org.example.util.NameUtil;
@@ -19,21 +20,24 @@ public class Main {
 
         String fileName = "";
 
-        if (args.length != 1) {
-            System.out.println("Введите название файла с колекцией аргументом командной строки");
-            System.exit(1);
+        String[] okr = args;
+
+        if (okr.length != 1) {
+            System.out.println("Путь до файла не указан или указан неверно, программа работает с дефолтным файлом");
+            okr = new String[]{"dev"};
+            ProgramStateController.getInstance().setIsFileDev(true);
         }
 
         File file = null;
 
         try {
-            file = new File(args[0]);
+            file = new File(okr[0]);
         } catch (Exception e) {
             System.out.println("Ошибка");
             System.exit(1);
         }
 
-        nameUtil.setName(args[0]);
+        nameUtil.setName(okr[0]);
 
 
         ProgramController cn = new ProgramController();

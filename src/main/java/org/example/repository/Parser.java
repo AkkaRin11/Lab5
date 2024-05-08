@@ -74,10 +74,10 @@ public class Parser {
             labWorks = new LinkedHashSet<>();
 
         } catch (FileNotFoundException q) {
-
-            System.out.println("Файл не существует или к нему нету доступа, создаётся пустая коллекция");
-
-            programStateController.isFileValid = false;
+            if (!programStateController.getIsFileDev()) {
+                System.out.println("Файл не существует или к нему нету доступа, создаётся пустая коллекция");
+                programStateController.setIsFileValid(false);
+            }
 
             labWorks = new LinkedHashSet<>();
 
@@ -88,7 +88,7 @@ public class Parser {
 
 
     public boolean save(LinkedHashSet<LabWork> labWorks) {
-        if (!programStateController.isFileValid){
+        if (!programStateController.getIsFileValid()) {
             return false;
         }
 
@@ -103,13 +103,25 @@ public class Parser {
             throw new RuntimeException(e);
         }
 
+        if (programStateController.getIsFileDev()){
+            try {
+                File file = new File(fileName + ".txt");
+                file.createNewFile();
 
-        try {
-            FileWriter writer = new FileWriter(fileName);
-            writer.write(jsonStr);
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+                FileWriter writer = new FileWriter(fileName + ".txt");
+                writer.write(jsonStr);
+                writer.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            try {
+                FileWriter writer = new FileWriter(fileName);
+                writer.write(jsonStr);
+                writer.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return true;

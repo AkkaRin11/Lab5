@@ -1,6 +1,7 @@
 package org.example.command;
 
 import org.example.controller.ObjectController;
+import org.example.controller.ProgramStateController;
 import org.example.service.LabWorkService;
 import org.example.service.LabWorkServiceImpl;
 import org.example.util.NameUtil;
@@ -33,7 +34,11 @@ public class Save extends Command {
         }
 
         if (labWorkService.save()){
-            objectController.print("Коллекция успешно сохранена");
+            if (ProgramStateController.getInstance().getIsFileDev()){
+                objectController.print("Коллекция успешно сохранена в дефолтный файл");
+            } else {
+                objectController.print("Коллекция успешно сохранена");
+            }
         } else {
             objectController.print("Файл не существует или к нему нету доступа, сохранение невозможно");
         }

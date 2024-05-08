@@ -12,20 +12,20 @@ import java.util.Scanner;
  *
  */
 
+@Getter
 public class ProgramStateController {
 
     private static ProgramStateController instance;
-    @Getter
     private ProgramState programState;
-    @Getter
     private String fileName = "";
-    @Getter
     private Scanner scanner;
-    public boolean isFileValid;
+    private boolean isFileValid;
+    private boolean isFileDev;
 
     private ProgramStateController() {
         programState = ProgramState.ReadFromConsole;
         isFileValid = true;
+        isFileDev = false;
     }
 
     public static ProgramStateController getInstance() {
@@ -38,6 +38,20 @@ public class ProgramStateController {
 
     public void setScanner(Scanner scanner){
         this.scanner = scanner;
+    }
+
+    public boolean getIsFileValid(){
+        return isFileValid;
+    }
+    public void setIsFileValid(boolean isFileValid){
+        this.isFileValid = isFileValid;
+    }
+
+    public boolean getIsFileDev(){
+        return isFileDev;
+    }
+    public void setIsFileDev(boolean isFileDev){
+        this.isFileDev = isFileDev;
     }
 
     public boolean setFileName(String fileName) {
