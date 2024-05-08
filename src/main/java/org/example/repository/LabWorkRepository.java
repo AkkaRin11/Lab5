@@ -19,7 +19,7 @@ public interface LabWorkRepository {
 
     boolean removeGreater(LabWork labWork);
 
-    void save();
+    boolean save();
 
     LinkedHashSet<LabWork> getCollection();
 

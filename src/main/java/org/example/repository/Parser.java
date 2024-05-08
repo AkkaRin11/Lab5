@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
+import org.example.controller.ProgramStateController;
 import org.example.model.LabWork;
 
 import java.io.File;
@@ -21,7 +22,7 @@ import java.util.Scanner;
 
 public class Parser {
     private static Parser instance;
-
+    private final ProgramStateController programStateController;
     private final String fileName;
 
     public static Parser getInstance(String fileName) {
@@ -34,6 +35,7 @@ public class Parser {
 
     public Parser(String fileName) {
         this.fileName = fileName;
+        programStateController = ProgramStateController.getInstance();
     }
 
     public LinkedHashSet<LabWork> read(String fileName) {
@@ -56,33 +58,40 @@ public class Parser {
             labWorks = mapper.readValue(stringJson, new TypeReference<LinkedHashSet<LabWork>>() {
             });
 
+        } catch (JsonProcessingException e) {
 
-        } catch (FileNotFoundException | JsonProcessingException e) {
-
-            System.out.println("Файл не существует или к нему нету доступа, создаётся пустая коллекция");
+            System.out.println("Файл не валиден, файл отчищается и создаётся пустая коллекция");
 
             try {
-                File file = new File("(1)" + fileName);
-                file.createNewFile();
-
-                FileWriter writer = new FileWriter("(1)" + fileName, false);
+                FileWriter writer = new FileWriter(fileName, false);
                 writer.write("[]");
                 writer.flush();
-
-                labWorks = new LinkedHashSet<>();
-
-                fileName = "(1)" + fileName;
 
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+
+            labWorks = new LinkedHashSet<>();
+
+        } catch (FileNotFoundException q) {
+
+            System.out.println("Файл не существует или к нему нету доступа, создаётся пустая коллекция");
+
+            programStateController.isFileValid = false;
+
+            labWorks = new LinkedHashSet<>();
+
         }
 
         return labWorks;
     }
 
 
-    public void save(LinkedHashSet<LabWork> labWorks) {
+    public boolean save(LinkedHashSet<LabWork> labWorks) {
+        if (!programStateController.isFileValid){
+            return false;
+        }
+
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JSR310Module());
 
@@ -103,6 +112,7 @@ public class Parser {
             throw new RuntimeException(e);
         }
 
+        return true;
     }
 
 }

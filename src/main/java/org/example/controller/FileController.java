@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.util.LinkedHashSet;
 import java.util.Scanner;
 
+import static org.example.util.Validation.checkIntNumber;
+
 
 /**
  *
@@ -46,15 +48,15 @@ public class FileController implements StreamController {
     }
 
     @Override
+    public String readNextLine(String str) {
+        return sc.nextLine();
+    }
+
+    @Override
     public void printLabWorkObj(LabWork labWork) {
         LabWorkDto labWorkDto = LabWorkDto.toDto(labWork);
 
-        print(labWorkDto.getId().toString(), labWorkDto.getName(), labWorkDto.getCoordinates().getX().toString(),
-                labWorkDto.getCoordinates().getY().toString(), labWorkDto.getCreationDate().toString(),
-                "" + labWorkDto.getMinimalPoint(), labWorkDto.getAveragePoint().toString(),
-                labWorkDto.getDifficulty().name(), labWorkDto.getAuthor().getName(),
-                labWorkDto.getAuthor().getBirthday().toString(), "" + labWorkDto.getAuthor().getHeight(),
-                labWorkDto.getAuthor().getHairColor().name(), labWorkDto.getAuthor().getNationality().name());
+        print(labWorkDto.toString());
 
     }
 
@@ -80,20 +82,48 @@ public class FileController implements StreamController {
     }
 
     @Override
+    public long readLong(String name, String text) {
+        return Long.parseLong(readNextLine());
+    }
+
+    @Override
     public <T extends Enum<T>> T readEnum(Class<T> enumClass) {
-        return T.valueOf(enumClass, readNextLine());
+
+        T a = null;
+
+        try {
+            String line = readNextLine();
+
+            if (checkIntNumber(line)) {
+                int enumNumber = Integer.parseInt(line);
+
+                if (enumNumber > 0 && enumNumber <= enumClass.getEnumConstants().length) {
+                    a = enumClass.getEnumConstants()[enumNumber - 1];
+                }
+
+            } else {
+                a = T.valueOf(enumClass, line.toUpperCase());
+            }
+        } catch (Exception e){
+            a = enumClass.getEnumConstants()[0];
+        }
+
+        return a;
     }
 
     @Override
     public double readDouble(String name) {
-        return Double.parseDouble(readNextLine());
+        return Double.parseDouble(readNextLine().replaceAll(",", "."));
+    }
+
+    @Override
+    public double readDouble(String name, String text) {
+        return Double.parseDouble(readNextLine().replaceAll(",", "."));
     }
 
     @Override
     public void setScanner() {
-        try {
-            sc = new Scanner(new File(programStateController.getFileName()));
-        } catch (FileNotFoundException e) {}
+        sc = programStateController.getScanner();
     }
 }
 

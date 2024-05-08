@@ -30,7 +30,7 @@ public class ObjectController {
         CoordinatesDto coordinatesDto = new CoordinatesDto(null, null);
 
         while (coordinatesDto.getX() == null) {
-            double a = streamController.readDouble("x");
+            double a = streamController.readDouble("x", "число должно быть меньеше 365");
 
             if (a < 365) {
                 coordinatesDto.setX(a);
@@ -40,7 +40,7 @@ public class ObjectController {
         }
 
         while (coordinatesDto.getY() == null) {
-            long a = streamController.readLong("y");
+            long a = streamController.readLong("y", "число должно быть больше -592");
 
             if (a > -592) {
                 coordinatesDto.setY(a);
@@ -53,7 +53,7 @@ public class ObjectController {
 
 
         while (lb.getMinimalPoint() == -1) {
-            long a = streamController.readLong("minimal point");
+            long a = streamController.readLong("minimal point", "число должно быть больше 0");
 
             if (a > 0) {
                 lb.setMinimalPoint(a);
@@ -64,7 +64,7 @@ public class ObjectController {
 
 
         while (lb.getAveragePoint() == null) {
-            long a = streamController.readLong("average point");
+            long a = streamController.readLong("average point", "число должно быть больше 0");
 
             if (a > 0) {
                 lb.setAveragePoint(a);
@@ -83,9 +83,8 @@ public class ObjectController {
         personDto.setName(streamController.readString("name"));
 
         while (personDto.getBirthday() == null) {
-            streamController.print("date(year month day): ");
 
-            String line = streamController.readNextLine();
+            String line = streamController.readNextLine("date(year month day): ");
             String[] str = line.split("\\s+");
 
             if (str.length != 3) {

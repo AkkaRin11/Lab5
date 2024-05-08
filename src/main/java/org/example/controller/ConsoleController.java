@@ -50,6 +50,12 @@ public class ConsoleController implements StreamController {
     }
 
     @Override
+    public String readNextLine(String str) {
+        print(str);
+        return sc.nextLine();
+    }
+
+    @Override
     public <T extends Enum<T>> T readEnum(Class<T> enumClass) {
         print("Введите одно из значений ниже");
 
@@ -135,13 +141,79 @@ public class ConsoleController implements StreamController {
     }
 
     @Override
+    public long readLong(String name, String text) {
+        Long res = null;
+
+        while (res == null) {
+            print(name + "(введите целое число, " + text + "): ");
+
+            String line = readNextLine();
+            String[] str = line.split("\\s+");
+
+            if (str.length != 1) {
+                print("Некорректное количество аргументов");
+                continue;
+            }
+
+            if (checkIntNumber(str[0])) {
+
+                long a = 0;
+
+                try {
+                    a = Long.parseLong(str[0]);
+                } catch (Exception ignored) {
+                }
+
+                res = a;
+            } else {
+                print(name + " может быть только целым числом");
+            }
+        }
+
+        return res;
+    }
+
+    @Override
     public double readDouble(String name) {
         Double res = null;
 
         while (res == null) {
             print(name + "(введиет вещественное число): ");
 
-            String line = readNextLine();
+            String line = readNextLine().replaceAll(",", ".");
+            String[] str = line.split("\\s+");
+
+            if (str.length != 1) {
+                print("Некорректное количество аргументов");
+                continue;
+            }
+
+            if (checkDouble(str[0]) || checkIntNumber(str[0])) {
+
+                double a = 0;
+
+                try {
+                    a = Double.parseDouble(str[0]);
+                } catch (Exception ignored) {
+                }
+
+                res = a;
+            } else {
+                print(name + " должен быть вещственным числом");
+            }
+        }
+
+        return res;
+    }
+
+    @Override
+    public double readDouble(String name, String text) {
+        Double res = null;
+
+        while (res == null) {
+            print(name + "(введите вещественное число, " + text + "): ");
+
+            String line = readNextLine().replaceAll(",", ".");
             String[] str = line.split("\\s+");
 
             if (str.length != 1) {

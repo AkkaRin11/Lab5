@@ -41,8 +41,8 @@ public class LabWorkServiceImpl implements LabWorkService {
     }
 
     @Override
-    public void save() {
-        labWorkRepository.save();
+    public boolean save() {
+        return labWorkRepository.save();
     }
 
     @Override

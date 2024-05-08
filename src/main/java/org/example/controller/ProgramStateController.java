@@ -1,8 +1,10 @@
 package org.example.controller;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
+import java.util.Scanner;
 
 /**
  *
@@ -17,9 +19,13 @@ public class ProgramStateController {
     private ProgramState programState;
     @Getter
     private String fileName = "";
+    @Getter
+    private Scanner scanner;
+    public boolean isFileValid;
 
-    ProgramStateController() {
+    private ProgramStateController() {
         programState = ProgramState.ReadFromConsole;
+        isFileValid = true;
     }
 
     public static ProgramStateController getInstance() {
@@ -28,6 +34,10 @@ public class ProgramStateController {
         }
 
         return instance;
+    }
+
+    public void setScanner(Scanner scanner){
+        this.scanner = scanner;
     }
 
     public boolean setFileName(String fileName) {

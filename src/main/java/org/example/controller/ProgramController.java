@@ -22,6 +22,7 @@ public class ProgramController {
         consoleController = ConsoleController.getInstance();
 
         consoleController.print("Программа запущена\nДля получения списка команд напишите: help");
+        System.out.print("> ");
     }
 
     public void run() {
@@ -37,7 +38,7 @@ public class ProgramController {
             }
         });
 
-        thread.setDaemon(true); // не работает
+        thread.setDaemon(true);
         Runtime.getRuntime().addShutdownHook(thread);
 
         try {
@@ -58,7 +59,7 @@ public class ProgramController {
                     continue;
                 }
 
-                if (!commandController.isValidCommand(str[0])) {
+                if (!CommandController.isValidCommand(str[0])) {
                     consoleController.print(str[0] + ": Имя " + str[0] +
                             " не распознано как имя командлета, функции, файла сценария или выполняемой программы\n" +
                             "Проверьте правильность написания имени, после чего повторите попытку.");
