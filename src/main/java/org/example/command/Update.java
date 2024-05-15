@@ -47,6 +47,10 @@ public class Update extends Command {
 
             LabWork labWork = objectController.getLabWorkObj();
 
+            if (labWork == null){
+                return;
+            }
+
             boolean result = labWorkService.updateById(labWork, id);
 
             if (result) {

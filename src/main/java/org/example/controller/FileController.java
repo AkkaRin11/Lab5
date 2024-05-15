@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.util.LinkedHashSet;
 import java.util.Scanner;
 
+import static org.example.util.Validation.checkDouble;
 import static org.example.util.Validation.checkIntNumber;
 
 
@@ -77,13 +78,26 @@ public class FileController implements StreamController {
     }
 
     @Override
-    public long readLong(String name) {
-        return Long.parseLong(readNextLine());
+    public Long readLong(String name) {
+
+        String line = readNextLine();
+
+        if (checkIntNumber(line)) {
+            return Long.parseLong(line);
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public long readLong(String name, String text) {
-        return Long.parseLong(readNextLine());
+    public Long readLong(String name, String text) {
+        String line = readNextLine();
+
+        if (checkIntNumber(line)) {
+            return Long.parseLong(line);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -112,13 +126,26 @@ public class FileController implements StreamController {
     }
 
     @Override
-    public double readDouble(String name) {
-        return Double.parseDouble(readNextLine().replaceAll(",", "."));
+    public Double readDouble(String name) {
+
+        String line = readNextLine().replaceAll(",", ".");
+
+        if (checkDouble(line)) {
+            return Double.parseDouble(line);
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public double readDouble(String name, String text) {
-        return Double.parseDouble(readNextLine().replaceAll(",", "."));
+    public Double readDouble(String name, String text) {
+        String line = readNextLine().replaceAll(",", ".");
+
+        if (checkDouble(line)) {
+            return Double.parseDouble(line);
+        } else {
+            return null;
+        }
     }
 
     @Override
