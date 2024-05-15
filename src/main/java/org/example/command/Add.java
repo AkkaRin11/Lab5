@@ -37,6 +37,10 @@ public class Add extends Command {
 
         LabWork lb = objectController.getLabWorkObj();
 
+        if (lb == null){
+            return;
+        }
+
         labWorkService.add(lb);
 
         objectController.print("Коллекция успешно добавлена");

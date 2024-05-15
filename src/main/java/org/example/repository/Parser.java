@@ -100,7 +100,7 @@ public class Parser {
         try {
             jsonStr = mapper.writeValueAsString(labWorks);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            return false;
         }
 
         if (programStateController.getIsFileDev()){
@@ -112,7 +112,7 @@ public class Parser {
                 writer.write(jsonStr);
                 writer.close();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                return false;
             }
         } else {
             try {
@@ -120,7 +120,7 @@ public class Parser {
                 writer.write(jsonStr);
                 writer.close();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                return false;
             }
         }
 

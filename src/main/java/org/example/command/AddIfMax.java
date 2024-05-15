@@ -35,6 +35,10 @@ public class AddIfMax extends Command {
 
         LabWork labWork = objectController.getLabWorkObj();
 
+        if (labWork == null){
+            return;
+        }
+
         boolean res = labWorkService.addIfMax(labWork);
 
         if (res) {

@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.dto.LabWorkDto;
 import org.example.model.LabWork;
 
+import java.util.Hashtable;
 import java.util.LinkedHashSet;
 import java.util.Scanner;
 
@@ -108,7 +109,7 @@ public class ConsoleController implements StreamController {
     }
 
     @Override
-    public long readLong(String name) {
+    public Long readLong(String name) {
         Long res = null;
 
         while (res == null) {
@@ -141,7 +142,7 @@ public class ConsoleController implements StreamController {
     }
 
     @Override
-    public long readLong(String name, String text) {
+    public Long readLong(String name, String text) {
         Long res = null;
 
         while (res == null) {
@@ -174,7 +175,7 @@ public class ConsoleController implements StreamController {
     }
 
     @Override
-    public double readDouble(String name) {
+    public Double readDouble(String name) {
         Double res = null;
 
         while (res == null) {
@@ -207,7 +208,7 @@ public class ConsoleController implements StreamController {
     }
 
     @Override
-    public double readDouble(String name, String text) {
+    public Double readDouble(String name, String text) {
         Double res = null;
 
         while (res == null) {

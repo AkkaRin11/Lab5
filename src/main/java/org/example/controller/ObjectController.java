@@ -30,7 +30,10 @@ public class ObjectController {
         CoordinatesDto coordinatesDto = new CoordinatesDto(null, null);
 
         while (coordinatesDto.getX() == null) {
-            double a = streamController.readDouble("x", "число должно быть меньеше 365");
+            Double a = streamController.readDouble("x", "число должно быть меньеше 365");
+            if (a == null){
+                return null;
+            }
 
             if (a < 365) {
                 coordinatesDto.setX(a);
@@ -40,7 +43,11 @@ public class ObjectController {
         }
 
         while (coordinatesDto.getY() == null) {
-            long a = streamController.readLong("y", "число должно быть больше -592");
+            Long a = streamController.readLong("y", "число должно быть больше -592");
+
+            if (a == null){
+                return null;
+            }
 
             if (a > -592) {
                 coordinatesDto.setY(a);
@@ -53,7 +60,11 @@ public class ObjectController {
 
 
         while (lb.getMinimalPoint() == -1) {
-            long a = streamController.readLong("minimal point", "число должно быть больше 0");
+            Long a = streamController.readLong("minimal point", "число должно быть больше 0");
+
+            if (a == null){
+                return null;
+            }
 
             if (a > 0) {
                 lb.setMinimalPoint(a);
@@ -64,7 +75,11 @@ public class ObjectController {
 
 
         while (lb.getAveragePoint() == null) {
-            long a = streamController.readLong("average point", "число должно быть больше 0");
+            Long a = streamController.readLong("average point", "число должно быть больше 0");
+
+            if (a == null){
+                return null;
+            }
 
             if (a > 0) {
                 lb.setAveragePoint(a);
@@ -89,15 +104,21 @@ public class ObjectController {
 
             if (str.length != 3) {
                 streamController.print("Некорректное количество аргументов, ожидается 3, получено " + str.length);
+
+                if (ProgramStateController.getInstance().getProgramState() == ProgramState.ReadFromFile){
+                    return null;
+                }
+
                 continue;
             }
 
-            int a = 0;
+            Integer a = 0;
             if (checkIntNumber(str[0])) {
 
                 try {
                     a = Integer.parseInt(str[0]);
                 } catch (Exception ignored) {
+                    return null;
                 }
 
             } else {
@@ -105,12 +126,13 @@ public class ObjectController {
                 continue;
             }
 
-            int b = 0;
+            Integer b = 0;
             if (checkIntNumber(str[0])) {
 
                 try {
-                    a = Integer.parseInt(str[0]);
+                    b = Integer.parseInt(str[0]);
                 } catch (Exception ignored) {
+                    return null;
                 }
 
             } else {
@@ -118,12 +140,13 @@ public class ObjectController {
                 continue;
             }
 
-            int c = 0;
+            Integer c = 0;
             if (checkIntNumber(str[0])) {
 
                 try {
-                    a = Integer.parseInt(str[0]);
+                    c = Integer.parseInt(str[0]);
                 } catch (Exception ignored) {
+                    return null;
                 }
 
             } else {

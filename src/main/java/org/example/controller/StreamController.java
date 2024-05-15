@@ -25,14 +25,14 @@ public interface StreamController {
 
     String readString(String name);
 
-    long readLong(String name);
+    Long readLong(String name);
 
-    long readLong(String name, String text);
+    Long readLong(String name, String text);
 
     <T extends Enum<T>> T readEnum(Class<T> enumClass);
 
-    double readDouble(String name);
-    double readDouble(String name, String text);
+    Double readDouble(String name);
+    Double readDouble(String name, String text);
 
     void setScanner();
 
