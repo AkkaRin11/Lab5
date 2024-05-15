@@ -20,39 +20,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
-        class Comp implements Comparator<Coordinates>{
-            @Override
-            public int compare(Coordinates o1, Coordinates o2) {
-                if (o1.getX() < o2.getX()){
-                    return -1;
-                }
-                if (o1.getX().equals(o2.getX())){
-                    return 0;
-                }
-                return 1;
-            }
-        }
-
-
-        ArrayList<Coordinates> coordinates = new ArrayList<>();
-
-        coordinates.add(new Coordinates(1.2, 1L));
-        coordinates.add(new Coordinates(1.1, 1L));
-
-        coordinates.sort(new Comp());
-
-
-
-
-
-
-
-
-
-
-
-
         NameUtil nameUtil = NameUtil.getInstance();
 
         String fileName = "";
